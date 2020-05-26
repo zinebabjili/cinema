@@ -11,9 +11,9 @@ ThemeData themeData(){
 
         body1: base.button.copyWith(
           fontFamily: 'OpenSans-Bold',
-          fontSize: 26,
+          fontSize: 25,
           fontWeight: FontWeight.w600,
-          color: Colors.deepOrange,
+          color: Colors.white,
         ),
     );
   }

@@ -1,18 +1,17 @@
+import 'package:cinema/theme.dart';
 import 'package:flutter/material.dart';
 import 'router.dart' as router;
 
 void main() {
-  runApp(MaterialApp(
-    home: MyApp(),
-  ));
+  runApp( MyApp(),);
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //theme: themeData(),
       debugShowCheckedModeBanner: false,
+      theme: themeData(),
       initialRoute: '/',
       onGenerateRoute: router.generateRoute,
 

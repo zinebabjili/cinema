@@ -3,6 +3,7 @@
 //crossAxisSpacing = A Space between widget (side by side)
 
 import 'package:cinema/models/place.dart';
+import 'package:cinema/ui/TicketPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,29 +19,49 @@ class _CityPageState extends State<CityPage> {
     Place(image: 'assets/images/agadir.jpg', name: "Agadir"),
     Place(image: 'assets/images/marrakech.jpg', name: "Marrakech"),
     Place(image: 'assets/images/tanger.png', name: "Tanger"),
-    Place(image: 'assets/images/two.jpg', name: "Machu Picchu"),
-    Place(image: 'assets/images/two.jpg', name: "Chichén Itzá"),
+    Place(image: 'assets/images/two.jpg', name: "Fés"),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[600],
       body: SafeArea(
         child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                   stops: [0.2,0.3,0.5],
+                  colors: [Colors.grey[600],Colors.grey[700],Colors.black87])),
           padding: EdgeInsets.all(20.0),
           child: Column(
             children: <Widget>[
               Container(
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "Cities",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        "Choose Cities Names",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
+                    GestureDetector(
+                      onTap: (){
+                         Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => TicketPage()));
+                      },
+                      child: Icon(
+                        Icons.assignment,
+                        size: 30,
+                        color: Colors.white70,
+                        ),
+                    )
                   ],
                 ),
               ),
@@ -57,22 +78,38 @@ class _CityPageState extends State<CityPage> {
                       return Card(
                         color: Colors.transparent,
                         elevation: 0,
-                        child: Container(
-                          decoration: BoxDecoration(
+                        child: Stack(children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                image: DecorationImage(
+                                    image: AssetImage(cities[index].image),
+                                    fit: BoxFit.cover)),
+                          ),
+                          Positioned(
+                              child: Container(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(
-                                  image: AssetImage(cities[index].image),
-                                  fit: BoxFit.cover)),
-                          child: InkWell(
+                              color: Colors.black12,
+                            ),
+                          )),
+                          Center(
+                            child: InkWell(
                               onTap: () {
-                                if(cities[index].image=="assets/images/casa.jpg")
+                                if (cities[index].image ==
+                                    "assets/images/casa.jpg")
                                   Navigator.of(context).pushNamed("casa");
                               },
-                              child: Center(
-                                child: Text(cities[index].name,
-                                    style: Theme.of(context).textTheme.body1),
-                              )),
-                        ),
+                              child: Text(
+                                cities[index].name,
+                                style: Theme.of(context).textTheme.body1,
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ]),
                       );
                     }),
               )

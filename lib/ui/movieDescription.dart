@@ -19,13 +19,13 @@ class _MovieDescriptionState extends State<MovieDescription> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Align(
-        alignment: Alignment.topLeft,
+        // alignment: Alignment.topLeft,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.fromLTRB(_hPad, 15.0, _hPad, 4.0),
+              padding: const EdgeInsets.fromLTRB(_hPad, 10.0, _hPad, 4.0),
               child: Text("Resume", style: TitleTextStyle),
             ),
             (seeMoreIsSelected == 0)
@@ -37,7 +37,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w300,
-                        color: Colors.grey,
+                        color: Colors.grey[600],
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -51,7 +51,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w300,
-                          color: Colors.grey,
+                          color: Colors.grey[600],
                         )),
                   ),
             GestureDetector(
@@ -70,6 +70,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
                       style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
+                        color: Colors.black
                       ),
                       textAlign: TextAlign.center,
                     )
@@ -78,6 +79,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
                       style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
+                        color: Colors.black
                       ),
                       textAlign: TextAlign.center,
                     ),

@@ -8,13 +8,15 @@ class Movie extends StatefulWidget {
 }
 
 class _MovieState extends State<Movie> {
-  List<String> cinemas =["mega", "imax", "saada"];
+  List<String> cinemas = ["mega", "imax", "saada"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Stack(
+          Padding(
+            padding: EdgeInsets.all(0.0),
+            child: Stack(
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.width * .7,
@@ -104,14 +106,18 @@ class _MovieState extends State<Movie> {
               ),
             ],
           ),
-          MovieDescription(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(0.0),
+            child: MovieDescription(),
+          ),
+          
           Expanded(
             child: ListView.builder(
-              itemCount: cinemas.length,
-              itemBuilder: (BuildContext ctxt, int index) {
-              return MovieAvailable();
-              }
-            ),
+                itemCount: cinemas.length,
+                itemBuilder: (BuildContext ctxt, int index) {
+                  return MovieAvailable();
+                }),
           )
         ],
       ),

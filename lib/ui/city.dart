@@ -4,6 +4,7 @@
 
 import 'package:cinema/models/place.dart';
 import 'package:cinema/ui/TicketPage.dart';
+import 'package:cinema/ui/movie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -95,10 +96,12 @@ class _CityPageState extends State<CityPage> {
                           )),
                           Center(
                             child: InkWell(
+                              
                               onTap: () {
-                                if (cities[index].image ==
-                                    "assets/images/casa.jpg")
-                                  Navigator.of(context).pushNamed("casa");
+                                // if (cities[index].image ==
+                                //     "assets/images/casa.jpg")
+                                  Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (_) => Movie()));
                               },
                               child: Text(
                                 cities[index].name,

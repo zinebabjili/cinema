@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 Route<dynamic> generateRoute (RouteSettings settings) {
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(builder: (context) => Movie());
+      return MaterialPageRoute(builder: (context) => CityPage());
     case 'casa':
       return MaterialPageRoute(builder: (context) => Casa());
   }

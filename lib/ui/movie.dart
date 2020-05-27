@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cinema/ui/movieDescription.dart';
+import 'package:cinema/ui/moviesAvailable.dart';
 
-class MovieDescription extends StatefulWidget {
+class Movie extends StatefulWidget {
   @override
-  _MovieDescriptionState createState() => _MovieDescriptionState();
+  _MovieState createState() => _MovieState();
 }
 
-class _MovieDescriptionState extends State<MovieDescription> {
+class _MovieState extends State<Movie> {
+  List<String> cinemas =["mega", "imax", "saada"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +17,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
           Stack(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * .7,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
                     boxShadow: [
@@ -84,10 +86,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
                         SizedBox(width: 5.0),
                         Text(
                           "(2016) 1h30min",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.0
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 15.0),
                         ),
                       ],
                     ),
@@ -97,12 +96,22 @@ class _MovieDescriptionState extends State<MovieDescription> {
               Positioned(
                 right: 20.0,
                 bottom: 20.0,
-                child: Icon(Icons.star,
+                child: Icon(
+                  Icons.star,
                   color: Colors.yellow,
                   size: 30.0,
                 ),
               ),
             ],
+          ),
+          MovieDescription(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: cinemas.length,
+              itemBuilder: (BuildContext ctxt, int index) {
+              return MovieAvailable();
+              }
+            ),
           )
         ],
       ),

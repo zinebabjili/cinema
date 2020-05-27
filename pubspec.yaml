@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^8.8.1
+  flutter_svg: ^0.17.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -61,8 +62,10 @@ flutter:
    - family: OpenSans
      fonts:
       - asset: fonts/OpenSans-Bold.ttf
-  #      - asset: fonts/OpenSans-Regular.ttf
-  #         style: italic
+   - family: Montserrat
+     fonts:
+      - asset: fonts/Montserrat-Regular.ttf
+      - asset: fonts/Montserrat-Bold.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

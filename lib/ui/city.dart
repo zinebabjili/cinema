@@ -17,9 +17,9 @@ class _CityPageState extends State<CityPage> {
     Place(image: 'assets/images/casa.jpg', name: "Casablanca"),
     Place(image: 'assets/images/rabat.jpg', name: "Rabat"),
     Place(image: 'assets/images/agadir.jpg', name: "Agadir"),
-    Place(image: 'assets/images/marrakech.jpg', name: "Marrakech"),
-    Place(image: 'assets/images/tanger.png', name: "Tanger"),
-    Place(image: 'assets/images/two.jpg', name: "Fés"),
+    Place(image: 'assets/images/marrakech.jpg', name: "Marrakesh"),
+    Place(image: 'assets/images/tanger.png', name: "Tangier"),
+    Place(image: 'assets/images/fes.jpg', name: "Fes"),
   ];
 
   @override
@@ -44,9 +44,9 @@ class _CityPageState extends State<CityPage> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: Text(
-                        "Choose Cities Names",
+                        "Choose City",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.orangeAccent,
                             fontSize: 35,
                             fontWeight: FontWeight.bold),
                       ),

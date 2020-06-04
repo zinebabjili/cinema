@@ -9,21 +9,23 @@ String apiUrlCities = "https://cinema-backend-mundia.herokuapp.com/villes/";
 
 class RepoCinema {
   //Function to get city
-  Future<City> getCity(int id) async {
-
-    final result = await http.Client().get(apiUrlCities + id.toString());
-
+  Future <List<City>> getCity() async {
+    var result = await http.Client().get(apiUrlCities);
     if (result.statusCode != 200) {
       throw Exception();
     }
-
     return parseCityJson(result.body);
   }
 
   // will past the value of json response to a model Weather
-  City parseCityJson(final response){
+  List<City> parseCityJson(response){
     final jsonDecoded = json.decode(response);
-    final jsonWeather = jsonDecoded;
-    return City.fromJson(jsonWeather);
+    final jsonCities = jsonDecoded;
+    List<City> cities =[];
+    for (var i = 0; i < jsonCities["_embedded"]["villes"].length; i++) {
+      // print(jsonCities["_embedded"]["villes"][i]);
+      cities.add(City.fromJson(jsonCities["_embedded"]["villes"][i]));
+    }
+    return cities ;
   }
 }

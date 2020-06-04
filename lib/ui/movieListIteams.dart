@@ -166,7 +166,7 @@ class _SearchInputState extends State<SearchInput> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextField(
-        onSubmitted: (value) {
+        onChanged: (value) {
           print("168 : " + value);
           Provider.of<CinemaNotifier>(context, listen: false).setNewFilmsSearch(currentCity.id,value);
           // Provider.of<CinemaNotifier>(context,listen: false).setNewFilmsSearch();

@@ -31,8 +31,8 @@ class MovieIteam extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     bottomLeft: Radius.circular(10.0)),
-                child: Image.network(
-                  "https://fr.web.img5.acsta.net/pictures/19/06/18/12/11/3956503.jpg",
+                child: Image.asset(
+                  "assets/images/158834.jpg",
                   height: 200,
                   width: 150,
                   fit: BoxFit.cover,

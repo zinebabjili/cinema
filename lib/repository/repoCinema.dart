@@ -10,11 +10,11 @@ String apiUrlCities = "https://cinema-backend-mundia.herokuapp.com/villes/";
 class RepoCinema {
   //Function to get city
   Future <List<City>> getCity() async {
-    var result = await http.Client().get(apiUrlCities);
-    if (result.statusCode != 200) {
+    final http.Response response = await http.get(apiUrlCities);
+    if (response.statusCode != 200) {
       throw Exception();
     }
-    return parseCityJson(result.body);
+    return parseCityJson(response.body);
   }
 
   // will past the value of json response to a model Weather

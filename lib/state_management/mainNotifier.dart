@@ -6,14 +6,15 @@ class CinemaNotifier with ChangeNotifier{
 
   RepoCinema _repoCinema = new RepoCinema();
 
-  List<City> citiesLoad =[] ;
+  List<City> _citiesLoad = [];
+
 
   //load cities 
   Stream<List<City>> loadCities() async*{
     _repoCinema.getCity().then((onValue){
-      citiesLoad = onValue;
+      _citiesLoad = onValue;
     });
-    yield citiesLoad;
+    yield _citiesLoad;
     notifyListeners();
   }
 

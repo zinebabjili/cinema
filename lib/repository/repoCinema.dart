@@ -3,8 +3,10 @@ import 'package:cinema/models/film.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// String apiUrlCities = "http:///villes/";
 String apiUrlCities = "https://cinema-backend-mundia.herokuapp.com/villes/";
 String apiUrlMovies = "https://cinema-backend-mundia.herokuapp.com/search/ville=";
+// String apiUrlMovies = "http://192.168.1.102:8089/search/ville=";
 
 
 class RepoCinema {
@@ -29,8 +31,15 @@ class RepoCinema {
     return cities ;
   }
 
-  Future <List<Film>> getMovies(var i) async {
-    final http.Response response = await http.get(apiUrlMovies + i.toString() + "&film=");
+  Future <List<Film>> getMovies(var i, var label) async {
+    
+    final http.Response response = await http.get(apiUrlMovies + i.toString() + "&film=" + label);
+    
+    // print("41 - " + i.toString() + " - " +label.toString());
+    
+    if(label != ""){
+      print(response.body);
+    }
     if (response.statusCode != 200) {
       throw Exception();
     }

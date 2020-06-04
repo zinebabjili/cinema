@@ -39,6 +39,7 @@ class _MovieListIteamsState extends State<MovieListIteams> {
               )
             : SearchInput(
                 editingController: searchController,
+                currentCity: currentCity,
               ),
         actions: <Widget>[
           !isShearching
@@ -58,6 +59,8 @@ class _MovieListIteamsState extends State<MovieListIteams> {
                 )
               : GestureDetector(
                   onTap: () {
+                    Provider.of<CinemaNotifier>(context, listen: false).labelSearch = "";
+                    Provider.of<CinemaNotifier>(context, listen: false).loadMovies(currentCity.id);
                     this.setState(() {
                       isShearching = false;
                     });
@@ -142,17 +145,31 @@ class _MovieListIteamsState extends State<MovieListIteams> {
   }
 }
 
-class SearchInput extends StatelessWidget {
+class SearchInput extends StatefulWidget {
+  final City currentCity;
   final TextEditingController editingController;
 
-  const SearchInput({Key key, this.editingController}) : super(key: key);
+  const SearchInput({Key key, this.editingController, this.currentCity}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
+  _SearchInputState createState() => _SearchInputState(currentCity,editingController);
+}
+
+class _SearchInputState extends State<SearchInput> {
+  final City currentCity;
+  final TextEditingController editingController;
+
+  _SearchInputState(this.currentCity,this.editingController);
+
+  @override
+  Widget build(context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextField(
-        onChanged: (value) {
-          print(value);
+        onSubmitted: (value) {
+          print("168 : " + value);
+          Provider.of<CinemaNotifier>(context, listen: false).setNewFilmsSearch(currentCity.id,value);
+          // Provider.of<CinemaNotifier>(context,listen: false).setNewFilmsSearch();
         },
         controller: editingController,
         decoration: InputDecoration(

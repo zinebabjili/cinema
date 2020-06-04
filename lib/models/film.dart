@@ -5,9 +5,10 @@ class Film{
   final String description;
   final String realisateur;
   final String imageUrl;
+  final String category;
   final String date;
 
-  Film({this.id, this.duree, this.titre, this.description, this.realisateur, this.imageUrl, this.date});
+  Film({this.id, this.duree, this.titre, this.description, this.realisateur, this.imageUrl, this.date, this.category});
   
   factory Film.fromJson(Map<String, dynamic> json) {
     return Film(
@@ -18,6 +19,7 @@ class Film{
       realisateur: json['realisateur'] as String,
       imageUrl: json['photo'] as String,
       date: json['date'] as String,
+      category: json['categorie']['name'] as String,
     );
   }
 }

@@ -38,10 +38,9 @@ class MovieIteam extends StatelessWidget {
                     topLeft: Radius.circular(10.0),
                     bottomLeft: Radius.circular(10.0)),
                 child: CachedNetworkImage(
-                  width:150,
-                  height:200,
-                  imageUrl:
-                      movieSelected.imageUrl,
+                  width: 150,
+                  height: 200,
+                  imageUrl: movieSelected.imageUrl,
                   placeholder: (context, url) =>
                       new CircularProgressIndicator(),
                   errorWidget: (context, url, error) => Padding(
@@ -60,16 +59,19 @@ class MovieIteam extends StatelessWidget {
               top: 0.0,
               left: 160,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       movieSelected.titre,
+                      textAlign: TextAlign.start,
                       style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ),
                   Text(
-                    "joaquin phoenix",
+                    movieSelected.category,
+                    textAlign: TextAlign.start,
                     style: TextStyle(fontSize: 16, color: Colors.grey),
                   )
                 ],
@@ -79,25 +81,28 @@ class MovieIteam extends StatelessWidget {
               bottom: 20,
               left: 160,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
                       Text(
-                        "4.5",
+                        movieSelected.duree.toString(),
                         style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.yellow,
+                          fontSize: 25,
+                          color: Colors.grey,
                         ),
                       ),
                       SizedBox(width: 5),
                       Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 30.0,
+                        Icons.access_time,
+                        color: Colors.grey,
+                        size: 25.0,
                       ),
                     ],
                   ),
-                  SizedBox(width: 40),
+                  // SizedBox(width: 40),
+
                   RaisedButton(
                       textColor: Colors.white,
                       color: Colors.deepOrange,

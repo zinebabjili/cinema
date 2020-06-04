@@ -179,7 +179,7 @@ class _CityPageState extends State<CityPage> {
                                         child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
-                                        color: Colors.black12,
+                                        color: Colors.black38,
                                       ),
                                     )),
                                     Center(

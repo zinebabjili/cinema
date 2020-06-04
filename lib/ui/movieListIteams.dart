@@ -1,15 +1,25 @@
+import 'package:cinema/models/city.dart';
+import 'package:cinema/models/film.dart';
+import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/ui/movieIteam.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MovieListIteams extends StatefulWidget {
+  final City currentCity;
+
+  const MovieListIteams({Key key, this.currentCity}) : super(key: key);
+
   @override
-  _MovieListIteamsState createState() => _MovieListIteamsState();
+  _MovieListIteamsState createState() => _MovieListIteamsState(currentCity);
 }
 
 class _MovieListIteamsState extends State<MovieListIteams> {
-  TextEditingController searchController ;
+  City currentCity;
+  TextEditingController searchController;
   bool isShearching;
-  List<String> cinemas = ["Breaking Bad", "Breaking Bad", "Breaking Bad"];
+  _MovieListIteamsState(this.currentCity);
+
   @override
   void initState() {
     super.initState();
@@ -22,13 +32,14 @@ class _MovieListIteamsState extends State<MovieListIteams> {
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
-        title: 
-        !isShearching
-        ? Text(
-          "Movie List ",
-          style: TextStyle(fontSize: 22),
-        )
-        : SearchInput (editingController: searchController,),
+        title: !isShearching
+            ? Text(
+                "Movie List ",
+                style: TextStyle(fontSize: 22),
+              )
+            : SearchInput(
+                editingController: searchController,
+              ),
         actions: <Widget>[
           !isShearching
               ? GestureDetector(
@@ -69,24 +80,60 @@ class _MovieListIteamsState extends State<MovieListIteams> {
               height: MediaQuery.of(context).size.height * .05,
               color: Colors.black,
               child: Padding(
-                padding: const EdgeInsets.only(top:8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  "Results : 2",
+                  "Results : " + currentCity.name,
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * .85,
-              child: ListView.builder(
-                  controller: ScrollController(keepScrollOffset: false),
-                  shrinkWrap: true,
-                  itemCount: cinemas.length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return MovieIteam();
-                  }),
+            StreamBuilder<List<Film>>(
+              stream: Provider.of<CinemaNotifier>(context)
+                  .loadMovies(currentCity.id),
+              builder: (context, snapshot) {
+                if (snapshot.data != null) {
+                  if (snapshot.data.length != 0) {
+                    return Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * .85,
+                      child: ListView.builder(
+                          controller: ScrollController(keepScrollOffset: false),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return MovieIteam(movieSelected : snapshot.data[index]);
+                          }),
+                    );
+                  } else {
+                    return Container(
+                        height: 200,
+                        width: double.infinity,
+                        child: Column(
+                          children: <Widget>[
+                            CircularProgressIndicator(
+                                backgroundColor: Colors.black),
+                            Text("Data is loading please wait for it",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18.0)),
+                          ],
+                        ));
+                  }
+                } else {
+                  return Container(
+                      height: 200,
+                      width: double.infinity,
+                      child: Column(
+                        children: <Widget>[
+                          CircularProgressIndicator(
+                              backgroundColor: Colors.black),
+                          Text("Data is loading please wait for it",
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 18.0)),
+                        ],
+                      ));
+                }
+              },
             ),
           ],
         ),

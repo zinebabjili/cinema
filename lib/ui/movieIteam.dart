@@ -1,8 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinema/models/film.dart';
 import 'package:flutter/material.dart';
 
 import 'movie.dart';
 
 class MovieIteam extends StatelessWidget {
+  final Film movieSelected;
+
+  const MovieIteam({Key key, this.movieSelected}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,10 +37,21 @@ class MovieIteam extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     bottomLeft: Radius.circular(10.0)),
-                child: Image.asset(
-                  "assets/images/158834.jpg",
-                  height: 200,
-                  width: 150,
+                child: CachedNetworkImage(
+                  width:150,
+                  height:200,
+                  imageUrl:
+                      movieSelected.imageUrl,
+                  placeholder: (context, url) =>
+                      new CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      radius: 38,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage('assets/images/158834.jpg'),
+                    ),
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -47,7 +64,7 @@ class MovieIteam extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      "Breaking Bad",
+                      movieSelected.titre,
                       style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ),
@@ -89,11 +106,13 @@ class MovieIteam extends StatelessWidget {
                             horizontal: 0.0, vertical: 10.0),
                         child: Text(
                           "View",
-                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w800),
+                          style: TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.w800),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => Movie()));
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (_) => Movie()));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0))),

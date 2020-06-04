@@ -188,7 +188,7 @@ class _CityPageState extends State<CityPage> {
                                           Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      MovieListIteams()));
+                                                      MovieListIteams(currentCity: snapshot.data[index],)));
                                         },
                                         child: Text(
                                           snapshot.data[index].name,

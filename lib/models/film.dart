@@ -16,7 +16,7 @@ class Film{
       titre: json['titre'] as String,
       description: json['description'] as String,
       realisateur: json['realisateur'] as String,
-      imageUrl: json['imageUrl'] as String,
+      imageUrl: json['photo'] as String,
       date: json['date'] as String,
     );
   }

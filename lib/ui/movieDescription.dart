@@ -2,13 +2,19 @@ import 'package:cinema/styles.dart';
 import 'package:flutter/material.dart';
 
 class MovieDescription extends StatefulWidget {
+  final String desc;
+  final String realisateur;
+
+  const MovieDescription({Key key, this.desc, this.realisateur}) : super(key: key);
   @override
   _MovieDescriptionState createState() => _MovieDescriptionState();
 }
 
 class _MovieDescriptionState extends State<MovieDescription> {
+
   var seeMoreIsSelected;
   static const double _hPad = 16.0;
+
   @override
   void initState() {
     super.initState();
@@ -27,10 +33,9 @@ class _MovieDescriptionState extends State<MovieDescription> {
         ),
         (seeMoreIsSelected == 0)
             ? Container(
-                padding:
-                    const EdgeInsets.fromLTRB(_hPad, 05.0, _hPad, 4.0),
+                padding: const EdgeInsets.fromLTRB(_hPad, 05.0, _hPad, 4.0),
                 child: Text(
-                  "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla ()bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla",
+                  widget.desc,
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w300,
@@ -41,16 +46,27 @@ class _MovieDescriptionState extends State<MovieDescription> {
                 ),
               )
             : Container(
-                padding:
-                    const EdgeInsets.fromLTRB(_hPad, 05.0, _hPad, 4.0),
-                child: Text(
-                    "bla bla bla bla bla bla bla bla bla bla bla blabla bla bla ()bla bla bla bla bla bla bla blabla bla bla bla bla bla bla bla bla bla bla bla",
+                padding: const EdgeInsets.fromLTRB(_hPad, 05.0, _hPad, 4.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: widget.desc ,
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w300,
                       color: Colors.grey[600],
-                    )),
-              ),
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '\nRealisateur  ',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextSpan(text: widget.realisateur),
+                    ],
+                  ),
+                )
+                //  Text(
+                //     desc + "\n" + "Realisateur : ",
+                    
+                ),
         GestureDetector(
           onTap: () {
             setState(() {
@@ -65,19 +81,17 @@ class _MovieDescriptionState extends State<MovieDescription> {
               ? Text(
                   "See More!",
                   style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black
-                  ),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
                   textAlign: TextAlign.center,
                 )
               : Text(
                   "See Less!",
                   style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black
-                  ),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
         ),

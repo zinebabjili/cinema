@@ -33,25 +33,28 @@ class MovieIteam extends StatelessWidget {
             Positioned(
               top: 0.0,
               left: 0.0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    bottomLeft: Radius.circular(10.0)),
-                child: CachedNetworkImage(
-                  width: 150,
-                  height: 200,
-                  imageUrl: movieSelected.imageUrl,
-                  placeholder: (context, url) =>
-                      new CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 38,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage('assets/images/158834.jpg'),
+              child: Hero(
+                tag: movieSelected.id,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      bottomLeft: Radius.circular(10.0)),
+                  child: CachedNetworkImage(
+                    width: 150,
+                    height: 200,
+                    imageUrl: movieSelected.imageUrl,
+                    placeholder: (context, url) =>
+                        new CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 38,
+                        backgroundColor: Colors.white,
+                        backgroundImage: AssetImage('assets/images/158834.jpg'),
+                      ),
                     ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -117,7 +120,7 @@ class MovieIteam extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (_) => Movie()));
+                            .push(MaterialPageRoute(builder: (_) => Movie(movieDesc: movieSelected )));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0))),

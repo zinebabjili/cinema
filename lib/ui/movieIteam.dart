@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinema/models/film.dart';
+import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'movie.dart';
 
@@ -119,6 +121,7 @@ class MovieIteam extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        // loadMoviesDetails
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (_) => Movie(movieDesc: movieSelected )));
                       },

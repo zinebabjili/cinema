@@ -1,12 +1,15 @@
+import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/city.dart';
 import 'package:cinema/models/film.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 // String apiUrlCities = "http:///villes/";
-String apiUrlCities = "http://192.168.1.102:8089/villes/";
 // String apiUrlMovies = "https://cinema-backend-mundia.herokuapp.com/search/ville=";
+
+String apiUrlCities = "http://192.168.1.102:8089/villes/";
 String apiUrlMovies = "http://192.168.1.102:8089/search/ville=";
+String apiUrlMoviesDetails = "http://192.168.1.102:8089/getCinemasSalles/ville=";
 
 
 class RepoCinema {
@@ -33,9 +36,7 @@ class RepoCinema {
 
   Future <List<Film>> getMovies(var i, var label) async {
     
-    final http.Response response = await http.get(apiUrlMovies + i.toString() + "&film=" + label);
-    
-    // print("41 - " + i.toString() + " - " +label.toString());
+    final http.Response response = await http.get(apiUrlMovies + i.toString() + "&film=" + label);    
 
     if(label != ""){
       print(response.body);
@@ -60,4 +61,30 @@ class RepoCinema {
 
     return films ;
   }
+
+  Future <List<Cinema>> getMoviesDetails(var idCity, var idFilm) async {
+    
+    final http.Response response = await http.get(apiUrlMoviesDetails + idCity.toString() + "&film=" + idFilm.toString());
+    
+    if (response.statusCode != 200) {
+      throw Exception();
+    }
+    return parseMovieDetailsJson(response.body);
+  }
+
+  List<Cinema> parseMovieDetailsJson(response){
+    final jsonDecoded = json.decode(response);
+    final jsonCines = jsonDecoded;
+
+    List<Cinema> cinemas =[];
+
+    Map map = jsonCines;
+    
+    map.forEach((key, value) {
+      cinemas.add(Cinema.fromJson(jsonCines[key]));
+    });
+
+    return cinemas ;
+  }
+
 }

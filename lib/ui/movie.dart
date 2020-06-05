@@ -1,7 +1,10 @@
+import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/film.dart';
+import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:cinema/ui/movieDescription.dart';
 import 'package:cinema/ui/moviesAvailable.dart';
+import 'package:provider/provider.dart';
 
 class Movie extends StatefulWidget {
   final Film movieDesc;
@@ -28,7 +31,6 @@ class _MovieState extends State<Movie> {
               padding: EdgeInsets.all(0.0),
               child: Stack(
                 children: <Widget>[
-                 
                   Container(
                     height: MediaQuery.of(context).size.width * .7,
                     decoration: BoxDecoration(
@@ -53,10 +55,9 @@ class _MovieState extends State<Movie> {
                     ),
                   ),
                   Positioned(
-                    child: Container(
+                      child: Container(
                     width: double.infinity,
                     height: MediaQuery.of(context).size.width * .7,
-
                     decoration: BoxDecoration(
                       color: Colors.black38,
                     ),
@@ -133,7 +134,6 @@ class _MovieState extends State<Movie> {
                       size: 30.0,
                     ),
                   ),
-                  
                 ],
               ),
             ),
@@ -144,13 +144,49 @@ class _MovieState extends State<Movie> {
                 realisateur: movieDesc.realisateur,
               ),
             ),
-            ListView.builder(
-                controller: ScrollController(keepScrollOffset: false),
-                shrinkWrap: true,
-                itemCount: cinemas.length,
-                itemBuilder: (BuildContext ctxt, int index) {
-                  return MovieAvailable();
-                })
+            StreamBuilder<List<Cinema>>(
+                stream: Provider.of<CinemaNotifier>(context)
+                    .loadMoviesDetails(movieDesc.id),
+                builder: (context, snapshot) {
+                  if (snapshot.data != null) {
+                    if (snapshot.data.length != 0) {
+                      return ListView.builder(
+                          controller: ScrollController(keepScrollOffset: false),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return MovieAvailable(cinema: snapshot.data[index]);
+                          });
+                    } else {
+                      return Container(
+                          height: 200,
+                          width: double.infinity,
+                          child: Column(
+                            children: <Widget>[
+                              CircularProgressIndicator(
+                                  backgroundColor: Colors.black),
+                              Text("Data is loading please wait for it",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 18.0)),
+                            ],
+                          ));
+                    }
+                  } else {
+                    return Container(
+                        height: 200,
+                        width: double.infinity,
+                        child: Column(
+                          children: <Widget>[
+                            CircularProgressIndicator(
+                                backgroundColor: Colors.black),
+                            Text("Data is loading please wait for it",
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18.0)),
+                          ],
+                        ));
+                  }
+                }),
+            
           ],
         ),
       ),

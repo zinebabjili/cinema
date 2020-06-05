@@ -14,7 +14,6 @@ class CinemaNotifier with ChangeNotifier{
   String labelSearch = "";
   int  currentCityId  ;
   // bool salleIsSelected = false;
-  List<String> salleSelect;
 
 
 
@@ -28,6 +27,7 @@ class CinemaNotifier with ChangeNotifier{
   }
 
   Stream<List<Film>> loadMovies(id) async*{
+
     currentCityId = id;
     _repoCinema.getMovies(id,this.labelSearch).then((onValue){
       _moviesLoad = onValue;
@@ -45,7 +45,7 @@ class CinemaNotifier with ChangeNotifier{
 
 
   void loadMoviesDetails(idFilm) {
-
+    cinemasLoad =null;
     _repoCinema.getMoviesDetails(currentCityId,idFilm).then((onValue){
       cinemasLoad = onValue;
     });
@@ -76,4 +76,10 @@ class CinemaNotifier with ChangeNotifier{
     
   }
 
+  void reSetValue(){
+    _moviesLoad = [];
+    cinemasLoad = [];
+    labelSearch = "";
+    currentCityId= null;
+  }
 }

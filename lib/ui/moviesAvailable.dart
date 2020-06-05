@@ -259,7 +259,7 @@ class _DialogSalleState extends State<DialogSalle> {
                           height: 100.0,
                           child: RaisedButton(
                             color: (currentSalle == listSalle[index] &&
-                                    currentSalle != null)
+                                    currentSalle != null )
                                 ? Theme.of(context).primaryColor
                                 : Colors.white,
                             child: Text(
@@ -268,7 +268,7 @@ class _DialogSalleState extends State<DialogSalle> {
                                 height: 1.5,
                                 fontSize: 12.0,
                                 color: (currentSalle == listSalle[index] &&
-                                        currentSalle != null)
+                                        currentSalle != null )
                                     ? Colors.white
                                     : Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.w600,

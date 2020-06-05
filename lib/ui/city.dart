@@ -19,6 +19,11 @@ class CityPage extends StatefulWidget {
 class _CityPageState extends State<CityPage> {
   @override
   void initState() {
+    reset() async {
+      Provider.of<CinemaNotifier>(context, listen: false).reSetValue();
+      print("reset with success");
+    }
+    reset.call();
     super.initState();
   }
 

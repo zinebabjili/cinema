@@ -124,11 +124,10 @@ class MovieIteam extends StatelessWidget {
                         // loadMoviesDetails
                         initialData() async{
                          Provider.of<CinemaNotifier>(context,listen: false).loadMoviesDetails(movieSelected.id);
-
                         }
-                        initialData().then((value) => {
+                        initialData().then((value){
                           Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (_) => Movie(movieDesc: movieSelected )))
+                            .push(MaterialPageRoute(builder: (_) => Movie(movieDesc: movieSelected )));
                         });
                         
                       },

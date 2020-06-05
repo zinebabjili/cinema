@@ -10,7 +10,7 @@ class CinemaNotifier with ChangeNotifier{
 
   List<City> _citiesLoad = [];
   List<Film> _moviesLoad = [];
-  List<Cinema> _cinemasLoad = [];
+  List<Cinema> cinemasLoad = [];
   String labelSearch = "";
   int  currentCityId  ;
   // bool salleIsSelected = false;
@@ -44,23 +44,20 @@ class CinemaNotifier with ChangeNotifier{
   }
 
 
-  Stream<List<Cinema>> loadMoviesDetails(idFilm) async*{
+  void loadMoviesDetails(idFilm) {
 
     _repoCinema.getMoviesDetails(currentCityId,idFilm).then((onValue){
-      _cinemasLoad = onValue;
+      cinemasLoad = onValue;
     });
-    
-    // print(_cinemasLoad);
-    yield  _cinemasLoad;
     notifyListeners();
-
+    // print(_cinemasLoad);
   }
 
   void setSalleSelected(int idCinema, currenSalle){
 
-    for(var i = 0;  i < _cinemasLoad.length ; i++){
-      if(_cinemasLoad[i].id == idCinema){
-        this._cinemasLoad[i].selectedSalle = currenSalle;
+    for(var i = 0;  i < cinemasLoad.length ; i++){
+      if(cinemasLoad[i].id == idCinema){
+        this.cinemasLoad[i].selectedSalle = currenSalle;
       }
 
     }
@@ -69,9 +66,9 @@ class CinemaNotifier with ChangeNotifier{
   }
 
   String getSalleSelectedName(int idCinema){
-    for(var i = 0;  i < _cinemasLoad.length ; i++){
-      if(_cinemasLoad[i].id == idCinema){
-        return this._cinemasLoad[i].selectedSalle.name ;
+    for(var i = 0;  i < cinemasLoad.length ; i++){
+      if(cinemasLoad[i].id == idCinema){
+        return this.cinemasLoad[i].selectedSalle.name ;
       }
     }
     notifyListeners();

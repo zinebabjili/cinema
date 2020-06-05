@@ -11,7 +11,7 @@ class Cinema{
 
   factory Cinema.fromJson(List<dynamic> json) {
     List<Salle> newSalle = [];
-    Salle _selectedSalle = new Salle();
+    Salle _selectedSalle = new Salle(name: "choose salle");
 
     for( var i = 0; i< json.length ; i++){
       newSalle.add(Salle(

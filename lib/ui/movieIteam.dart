@@ -120,10 +120,17 @@ class MovieIteam extends StatelessWidget {
                               fontSize: 16.0, fontWeight: FontWeight.w800),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         // loadMoviesDetails
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (_) => Movie(movieDesc: movieSelected )));
+                        initialData() async{
+                         Provider.of<CinemaNotifier>(context,listen: false).loadMoviesDetails(movieSelected.id);
+
+                        }
+                        initialData().then((value) => {
+                          Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (_) => Movie(movieDesc: movieSelected )))
+                        });
+                        
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0))),

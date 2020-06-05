@@ -12,15 +12,20 @@ class Movie extends StatefulWidget {
   const Movie({Key key, this.movieDesc}) : super(key: key);
   @override
   _MovieState createState() => _MovieState(this.movieDesc);
+
 }
 
 class _MovieState extends State<Movie> {
   final Film movieDesc;
 
   _MovieState(this.movieDesc);
-
+  @override
+  void initState() {
+    super.initState();
+  }
+  
   List<String> cinemas = ["mega", "imax", "saada"];
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,35 +149,62 @@ class _MovieState extends State<Movie> {
                 realisateur: movieDesc.realisateur,
               ),
             ),
-            StreamBuilder<List<Cinema>>(
-                stream: Provider.of<CinemaNotifier>(context)
-                    .loadMoviesDetails(movieDesc.id),
-                builder: (context, snapshot) {
-                  if (snapshot.data != null) {
-                    if (snapshot.data.length != 0) {
-                      return ListView.builder(
+            // StreamBuilder<List<Cinema>>(
+            //     stream: Provider.of<CinemaNotifier>(context)
+            //         .loadMoviesDetails(movieDesc.id),
+            //     builder: (context, snapshot) {
+            //       if (snapshot.data != null) {
+            //         if (snapshot.data.length != 0) {
+            //           return ListView.builder(
+            //               controller: ScrollController(keepScrollOffset: false),
+            //               shrinkWrap: true,
+            //               itemCount: snapshot.data.length,
+            //               itemBuilder: (BuildContext ctxt, int index) {
+            //                 return MovieAvailable(cinema: snapshot.data[index]);
+            //               });
+            //         } else {
+            //           return Container(
+            //               height: 200,
+            //               width: double.infinity,
+            //               child: Column(
+            //                 children: <Widget>[
+            //                   CircularProgressIndicator(
+            //                       backgroundColor: Colors.black),
+            //                   Text("Data is loading please wait for it",
+            //                       style: TextStyle(
+            //                           color: Colors.black, fontSize: 18.0)),
+            //                 ],
+            //               ));
+            //         }
+            //       } else {
+            //         return Container(
+            //             height: 200,
+            //             width: double.infinity,
+            //             child: Column(
+            //               children: <Widget>[
+            //                 CircularProgressIndicator(
+            //                     backgroundColor: Colors.black),
+            //                 Text("Data is loading please wait for it",
+            //                     style: TextStyle(
+            //                         color: Colors.black, fontSize: 18.0)),
+            //               ],
+            //             ));
+            //       }
+            //     }),
+                
+            Consumer<CinemaNotifier>(
+                
+                builder: (_, cinemaNotf, __) {
+                  if(cinemaNotf.cinemasLoad != null ){
+                    return ListView.builder(
                           controller: ScrollController(keepScrollOffset: false),
                           shrinkWrap: true,
-                          itemCount: snapshot.data.length,
+                          itemCount: cinemaNotf.cinemasLoad.length,
                           itemBuilder: (BuildContext ctxt, int index) {
-                            return MovieAvailable(cinema: snapshot.data[index]);
+                            return MovieAvailable(cinema: cinemaNotf.cinemasLoad[index]);
                           });
-                    } else {
-                      return Container(
-                          height: 200,
-                          width: double.infinity,
-                          child: Column(
-                            children: <Widget>[
-                              CircularProgressIndicator(
-                                  backgroundColor: Colors.black),
-                              Text("Data is loading please wait for it",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18.0)),
-                            ],
-                          ));
-                    }
-                  } else {
-                    return Container(
+                  }
+                  return Container(
                         height: 200,
                         width: double.infinity,
                         child: Column(
@@ -184,9 +216,9 @@ class _MovieState extends State<Movie> {
                                     color: Colors.black, fontSize: 18.0)),
                           ],
                         ));
-                  }
-                }),
-            
+                    
+                }
+            )
           ],
         ),
       ),

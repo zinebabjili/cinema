@@ -77,13 +77,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                   // : Text("Choose Salle "),
                                   Consumer<CinemaNotifier>(
                                     builder: (_, cinemaNotf, __) {
-                                      if(Provider.of<CinemaNotifier>(context,listen: false).getSalleSelectedName(cinema.id) != null){
-                                         return Text(Provider.of<CinemaNotifier>(context,listen: false)
-                                              .getSalleSelectedName(cinema.id));
-                                      }else{
-                                         return Text("Choose Salle OK");
-                                      }
-                                     
+                                         return Text(cinemaNotf.getSalleSelectedName(cinema.id));
                                     },
                                   ),
                                 ],
@@ -281,7 +275,7 @@ class _DialogSalleState extends State<DialogSalle> {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            onPressed: () {
+                            onPressed: () async{
                               setState(() {
                                 this.currentSalle = listSalle[index];
                               });
@@ -320,7 +314,7 @@ class _DialogSalleState extends State<DialogSalle> {
                       style: TextStyle(fontSize: 16.0),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       if (this.currentSalle != null) {
                         saveIsClicked = true;

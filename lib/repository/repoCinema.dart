@@ -41,7 +41,7 @@ class RepoCinema {
     final http.Response response = await http.get(apiUrlMovies + i.toString() + "&film=" + label);    
 
     if(label != ""){
-      print(response.body);
+      // print(response.body);
     }
     if (response.statusCode != 200) {
       throw Exception();

@@ -90,7 +90,6 @@ class CinemaNotifier with ChangeNotifier{
   }
 
   void setSeancesToCurrentSalle(Salle currentSalle, int idFilm)  {
-    print(currentSalle.name);
     List<Creneau> creneaux = new List<Creneau>();
     _repoCinema.getSeancesByFilmAndSalle(currentSalle.id, idFilm).then((value)  {
       for(var i = 0; i < value.length ; i++){
@@ -136,7 +135,7 @@ class CinemaNotifier with ChangeNotifier{
         cinemasLoad[indexCinema].selectedSalle.creneaux[key].tickets[i].isAvailable = false;
       }
     }
-    
+
   }
 
   bool containTicket( List<Ticket> comingTicket , int id){

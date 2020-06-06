@@ -50,320 +50,349 @@ class MovieAvailableState extends State<MovieAvailable> {
                   textAlign: TextAlign.start,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  // left
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: <Widget>[
-                        // salle button
-                        RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.black,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Icon(
-                                        FontAwesomeIcons.personBooth,
-                                        color: Colors.black,
-                                        size: 22,
-                                      )),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  // (cinema.selectedSalle.name != null)
-                                  // ? Text(cinema.selectedSalle.name)
-                                  // : Text("Choose Salle "),
-                                  Consumer<CinemaNotifier>(
-                                    builder: (_, cinemaNotf, __) {
-                                      return Text(cinemaNotf
-                                          .getSalleSelectedName(cinema.id));
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onPressed: () => _submit(context, cinema.salles,
-                                cinema.id, widget.film.id, "salle", 0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0))),
-                        // time button
-                        Consumer<CinemaNotifier>(
-                          builder: (_, cinemaNotf, __) {
-                            for (var i = 0;
-                                i < cinemaNotf.cinemasLoad.length;
-                                i++) {
-                              if (cinemaNotf.cinemasLoad[i].id == cinema.id) {
-                                if (cinemaNotf.cinemasLoad[i].selectedSalle
-                                            .creneaux !=
-                                        null &&
-                                    cinemaNotf.cinemasLoad[i].selectedSalle
-                                            .creneaux.length !=
-                                        0) {
-                                  currentSeance = "choose time";
-                                  for (var g = 0;
-                                      g <
-                                          cinemaNotf.cinemasLoad[i]
-                                              .selectedSalle.creneaux.length;
-                                      g++) {
-                                    if (cinemaNotf.cinemasLoad[i].selectedSalle
-                                        .creneaux[g].isSelected) {
-                                      currentSeance = cinemaNotf.cinemasLoad[i]
-                                          .selectedSalle.creneaux[g].heure
-                                          .substring(0, 5);
-                                    }
-                                  }
-                                  // if (cinemaNotf.getSalleSelectedName(cinema.id) != cinemaNotf.cinemasLoad[i].selectedSalle.name ){
-                                  //   currentSeance = "choose time";
-                                  // }
-
-                                  return RaisedButton(
-                                      textColor: Colors.white,
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
+                  Widget>[
+                // left
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: <Widget>[
+                      // salle button
+                      RaisedButton(
+                          textColor: Colors.white,
+                          color: Colors.black,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Icon(
+                                      FontAwesomeIcons.personBooth,
                                       color: Colors.black,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: Icon(
-                                                  FontAwesomeIcons.clock,
-                                                  color: Colors.black,
-                                                )),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(currentSeance),
-                                          ],
-                                        ),
-                                      ),
-                                      onPressed: () => _submit(
-                                          context,
-                                          cinema.salles,
-                                          cinema.id,
-                                          widget.film.id,
-                                          "time",
-                                          i),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0)));
-                                } else {
-                                  return RaisedButton(
-                                      textColor: Colors.white,
-                                      color: Colors.black,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: Icon(
-                                                  FontAwesomeIcons.clock,
-                                                  color: Colors.black,
-                                                )),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text("Choose Time"),
-                                          ],
-                                        ),
-                                      ),
-                                      onPressed: null,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0)));
-                                }
-                              }
-                            }
-                          },
-                        ),
-
-                        // user button
-                        Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
-                          int nbrPlace = 0;
-                          if (cinemaNotf.cinemasLoad != null) {
-                            for (var i = 0;
-                                i < cinemaNotf.cinemasLoad.length;
-                                i++) {
-                              if (cinemaNotf.cinemasLoad[i].id == cinema.id) {
-                                bool state = false;
-                                int endex = 100;
-                                if (cinemaNotf.cinemasLoad[i].selectedSalle
-                                            .creneaux !=
-                                        null &&
-                                    cinemaNotf.cinemasLoad[i].selectedSalle
-                                            .creneaux.length !=
-                                        0) {
-                                  for (var k = 0;
-                                      k <
-                                          cinemaNotf.cinemasLoad[i]
-                                              .selectedSalle.creneaux.length;
-                                      k++) {
-                                    if (cinemaNotf.cinemasLoad[i].selectedSalle
-                                        .creneaux[k].isSelected) {
-                                      state = true;
-                                      endex = k;
-                                    }
-                                  }
-                                  if (endex != 100) {
-                                    for (var j = 0;
-                                        j <
-                                            cinemaNotf
-                                                .cinemasLoad[i]
-                                                .selectedSalle
-                                                .creneaux[endex]
-                                                .tickets
-                                                .length;
-                                        j++) {
-                                      if (cinemaNotf
-                                          .cinemasLoad[i]
-                                          .selectedSalle
-                                          .creneaux[endex]
-                                          .tickets[j]
-                                          .isAvailable) {
-                                        nbrPlace++;
-                                      }
-                                    }
-                                  }
-                                }
-
-                                if (state) {
-                                  return RaisedButton(
-                                      textColor: Colors.white,
-                                      color: Colors.black,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: Icon(
-                                                  FontAwesomeIcons.receipt,
-                                                  color: Colors.black,
-                                                )),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            nbrPlace != 0
-                                                ? Text(nbrPlace.toString() +
-                                                    " Place")
-                                                : Text("choose Place"),
-                                          ],
-                                        ),
-                                      ),
-                                      onPressed: () => _submit(
-                                          context,
-                                          cinema.salles,
-                                          cinema.id,
-                                          widget.film.id,
-                                          "ticket",
-                                          i),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0)));
-                                } else {
-                                  return RaisedButton(
-                                      textColor: Colors.white,
-                                      color: Colors.black,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                child: Icon(
-                                                  FontAwesomeIcons.receipt,
-                                                  color: Colors.black,
-                                                )),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text("Choose Place"),
-                                          ],
-                                        ),
-                                      ),
-                                      onPressed: null,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(30.0)));
-                                }
-                              }
-                            }
-                          } else {
-                            return RaisedButton(
-                                textColor: Colors.white,
-                                color: Colors.black,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                          height: 30,
-                                          width: 30,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          child: Icon(
-                                            FontAwesomeIcons.receipt,
-                                            color: Colors.black,
-                                          )),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text("Choose PlaceX"),
-                                    ],
-                                  ),
+                                      size: 22,
+                                    )),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                onPressed: null,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0)));
+                                // (cinema.selectedSalle.name != null)
+                                // ? Text(cinema.selectedSalle.name)
+                                // : Text("Choose Salle "),
+                                Consumer<CinemaNotifier>(
+                                  builder: (_, cinemaNotf, __) {
+                                    return Text(cinemaNotf
+                                        .getSalleSelectedName(cinema.id));
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          onPressed: () => _submit(context, cinema.salles,
+                              cinema.id, widget.film.id, "salle", 0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0))),
+                      // time button
+                      Consumer<CinemaNotifier>(
+                        builder: (_, cinemaNotf, __) {
+                          for (var i = 0;
+                              i < cinemaNotf.cinemasLoad.length;
+                              i++) {
+                            if (cinemaNotf.cinemasLoad[i].id == cinema.id) {
+                              if (cinemaNotf.cinemasLoad[i].selectedSalle
+                                          .creneaux !=
+                                      null &&
+                                  cinemaNotf.cinemasLoad[i].selectedSalle
+                                          .creneaux.length !=
+                                      0) {
+                                currentSeance = "choose time";
+                                for (var g = 0;
+                                    g <
+                                        cinemaNotf.cinemasLoad[i].selectedSalle
+                                            .creneaux.length;
+                                    g++) {
+                                  if (cinemaNotf.cinemasLoad[i].selectedSalle
+                                      .creneaux[g].isSelected) {
+                                    currentSeance = cinemaNotf.cinemasLoad[i]
+                                        .selectedSalle.creneaux[g].heure
+                                        .substring(0, 5);
+                                  }
+                                }
+                                // if (cinemaNotf.getSalleSelectedName(cinema.id) != cinemaNotf.cinemasLoad[i].selectedSalle.name ){
+                                //   currentSeance = "choose time";
+                                // }
+
+                                return RaisedButton(
+                                    textColor: Colors.white,
+                                    color: Colors.black,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Icon(
+                                                FontAwesomeIcons.clock,
+                                                color: Colors.black,
+                                              )),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(currentSeance),
+                                        ],
+                                      ),
+                                    ),
+                                    onPressed: () => _submit(
+                                        context,
+                                        cinema.salles,
+                                        cinema.id,
+                                        widget.film.id,
+                                        "time",
+                                        i),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0)));
+                              } else {
+                                return RaisedButton(
+                                    textColor: Colors.white,
+                                    color: Colors.black,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Icon(
+                                                FontAwesomeIcons.clock,
+                                                color: Colors.black,
+                                              )),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text("Choose Time"),
+                                        ],
+                                      ),
+                                    ),
+                                    onPressed: null,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0)));
+                              }
+                            }
                           }
-                        }),
-                      ],
-                    ),
+                        },
+                      ),
+
+                      // user button
+                      Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                        int nbrPlace = 0;
+                        if (cinemaNotf.cinemasLoad != null) {
+                          for (var i = 0;
+                              i < cinemaNotf.cinemasLoad.length;
+                              i++) {
+                            if (cinemaNotf.cinemasLoad[i].id == cinema.id) {
+                              bool state = false;
+                              int endex = 100;
+                              if (cinemaNotf.cinemasLoad[i].selectedSalle
+                                          .creneaux !=
+                                      null &&
+                                  cinemaNotf.cinemasLoad[i].selectedSalle
+                                          .creneaux.length !=
+                                      0) {
+                                for (var k = 0;
+                                    k <
+                                        cinemaNotf.cinemasLoad[i].selectedSalle
+                                            .creneaux.length;
+                                    k++) {
+                                  if (cinemaNotf.cinemasLoad[i].selectedSalle
+                                      .creneaux[k].isSelected) {
+                                    state = true;
+                                    endex = k;
+                                  }
+                                }
+                                if (endex != 100) {
+                                  for (var j = 0;
+                                      j <
+                                          cinemaNotf
+                                              .cinemasLoad[i]
+                                              .selectedSalle
+                                              .creneaux[endex]
+                                              .tickets
+                                              .length;
+                                      j++) {
+                                    if (cinemaNotf
+                                        .cinemasLoad[i]
+                                        .selectedSalle
+                                        .creneaux[endex]
+                                        .tickets[j]
+                                        .isAvailable) {
+                                      nbrPlace++;
+                                    }
+                                  }
+                                }
+                              }
+
+                              if (state) {
+                                return RaisedButton(
+                                    textColor: Colors.white,
+                                    color: Colors.black,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Icon(
+                                                FontAwesomeIcons.receipt,
+                                                color: Colors.black,
+                                              )),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          nbrPlace != 0
+                                              ? Text(nbrPlace.toString() +
+                                                  " Place")
+                                              : Text("choose Place"),
+                                        ],
+                                      ),
+                                    ),
+                                    onPressed: () => _submit(
+                                        context,
+                                        cinema.salles,
+                                        cinema.id,
+                                        widget.film.id,
+                                        "ticket",
+                                        i),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0)));
+                              } else {
+                                return RaisedButton(
+                                    textColor: Colors.white,
+                                    color: Colors.black,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Icon(
+                                                FontAwesomeIcons.receipt,
+                                                color: Colors.black,
+                                              )),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text("Choose Place"),
+                                        ],
+                                      ),
+                                    ),
+                                    onPressed: null,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0)));
+                              }
+                            }
+                          }
+                        } else {
+                          return RaisedButton(
+                              textColor: Colors.white,
+                              color: Colors.black,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                        height: 30,
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Icon(
+                                          FontAwesomeIcons.receipt,
+                                          color: Colors.black,
+                                        )),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Choose PlaceX"),
+                                  ],
+                                ),
+                              ),
+                              onPressed: null,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(30.0)));
+                        }
+                      }),
+                    ],
                   ),
-                  // right
-                  Padding(
+                ),
+                // right
+                Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                  int indexs = 1000;
+                  int ticketsNotempty = 0;
+                  double prixticket = 0.0;
+                  if (cinema.selectedSalle != null) {
+                    if (cinema.selectedSalle.creneaux != null) {
+                      for (var i = 0;
+                          i < cinema.selectedSalle.creneaux.length;
+                          i++) {
+                        if (cinema.selectedSalle.creneaux[i].isSelected) {
+                          indexs = i;
+                        }
+                      }
+                      if (indexs != 1000) {
+                        for (var i = 0;
+                            i <
+                                cinema.selectedSalle.creneaux[indexs].tickets
+                                    .length;
+                            i++) {
+                          if (cinema.selectedSalle.creneaux[indexs].tickets[i]
+                              .isAvailable) {
+                            ticketsNotempty++;
+                            prixticket = cinema
+                                .selectedSalle.creneaux[indexs].tickets[i].prix;
+                          }
+                        }
+                      }
+                    }
+                  }
+                  return Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Column(
                       children: <Widget>[
-                        RaisedButton(
+                        (ticketsNotempty != 0)
+                        ? RaisedButton(
                             textColor: Colors.white,
                             color: Colors.deepOrange,
                             child: Padding(
@@ -374,71 +403,48 @@ class MovieAvailableState extends State<MovieAvailable> {
                                 style: TextStyle(fontSize: 16.0),
                               ),
                             ),
-                            onPressed: () {
-                              print(cinema.salles);
-                              print("resrve");
-                            },
+                            onPressed: () => _reserve(context, cinema),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)))
+                        :RaisedButton(
+                            textColor: Colors.white,
+                            color: Colors.deepOrange,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              child: Text(
+                                "Reserve",
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ),
+                            onPressed: null,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0))),
                         SizedBox(height: 15),
-                        Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
-                          int indexs = 1000;
-                          int ticketsNotempty = 0;
-                          double prixticket = 0.0;
-                          if (cinema.selectedSalle != null) {
-                            if (cinema.selectedSalle.creneaux != null) {
-                              for (var i = 0;
-                                  i < cinema.selectedSalle.creneaux.length;
-                                  i++) {
-                                if (cinema
-                                    .selectedSalle.creneaux[i].isSelected) {
-                                  indexs = i;
-                                }
-                              }
-                              if (indexs != 1000) {
-                                for (var i = 0;
-                                    i <
-                                        cinema.selectedSalle.creneaux[indexs]
-                                            .tickets.length;
-                                    i++) {
-                                  if (cinema.selectedSalle.creneaux[indexs]
-                                      .tickets[i].isAvailable) {
-                                    ticketsNotempty++;
-                                    prixticket = cinema.selectedSalle
-                                        .creneaux[indexs].tickets[i].prix;
-                                  }
-                                }
-                              }
-                            }
-
-                            if (ticketsNotempty == 0) {
-                              return Text(
-                                "Price : \$ --,--",
+                        // Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                        (ticketsNotempty == 0)
+                            ? Text(
+                                "Price : --,-- Dh",
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black,
                                 ),
-                              );
-                            } else {
-                              return Text(
-                                "Price : \$" +
-                                    (prixticket * ticketsNotempty).toString(),
+                              )
+                            : Text(
+                                "Price : " +
+                                    (prixticket * ticketsNotempty).toString() +
+                                    " Dh",
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black,
-                                ),
-                              );
-                            }
-                          }
-                          return SizedBox();
-                        }),
+                                )),
                       ],
                     ),
-                  ),
-                ],
-              )
+                  );
+                }),
+              ])
             ],
           ),
         ),
@@ -771,7 +777,6 @@ class _DialogTimeState extends State<DialogTime> {
                       } else {
                         this.messageError = "* You should select something";
                       }
-                      print(this.currentCreneau.tickets[0].prix.toString());
                     });
                   },
                   shape: RoundedRectangleBorder(
@@ -1021,6 +1026,82 @@ class _DialogTicketsState extends State<DialogTickets> {
                         Navigator.pop(context);
                       }
                     });
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0))),
+            ],
+          ),
+        ));
+  }
+}
+
+_reserve(context, cinema) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogReserve(cinema: cinema);
+      });
+}
+
+class DialogReserve extends StatefulWidget {
+  final Cinema cinema;
+
+  const DialogReserve({Key key, this.cinema}) : super(key: key);
+  @override
+  _DialogReserveState createState() => _DialogReserveState(this.cinema);
+}
+
+class _DialogReserveState extends State<DialogReserve> {
+  Cinema cinema;
+
+  _DialogReserveState(this.cinema);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.45,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "You can easily Reserve :)",
+                style: TextStyle(
+                  height: 1.5,
+                  fontSize: 14.0,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              // messageError != null
+              //     ? Text(
+              //         messageError,
+              //         style: TextStyle(
+              //           height: 1.5,
+              //           fontSize: 14.0,
+              //           color: Colors.red,
+              //           fontWeight: FontWeight.w600,
+              //         ),
+              //         textAlign: TextAlign.center,
+              //       )
+              //     : SizedBox(),
+              RaisedButton(
+                  textColor: Colors.white,
+                  color: Colors.deepOrange,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    child: Text(
+                      "Save",
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {});
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0))),

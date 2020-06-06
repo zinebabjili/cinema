@@ -2,10 +2,13 @@ import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/film.dart';
 import 'package:cinema/models/salle.dart';
+import 'package:cinema/models/ticket.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 
 class MovieAvailable extends StatefulWidget {
@@ -355,12 +358,11 @@ class MovieAvailableState extends State<MovieAvailable> {
                                 borderRadius: BorderRadius.circular(30.0))),
                         SizedBox(height: 15),
                         Text(
-                          "Price : \$ 120",
+                          "Price : \$ --,--",
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w400,
                             color: Colors.black,
-                            decoration: TextDecoration.underline,
                           ),
                         )
                       ],
@@ -727,10 +729,30 @@ class _DialogTicketsState extends State<DialogTickets> {
   int indexListCurrentSalle;
 
   int indexSeance = 0;
+  List<Ticket> currentTicket = new List<Ticket>();
+  // if(){
+
+  // }
+  // //  = new List<Ticket>();
+  
+  String messageError;
+
 
   _DialogTicketsState(this.idCenima, this.idFilm, this.indexListCurrentSalle);
   @override
   Widget build(BuildContext context) {
+    int key = 0;
+    for (var f = 0 ; f <Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux.length; f++ ) {
+      if(Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[f].isSelected){
+        key = f;
+      }
+    }
+    for (var i = 0; i < Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[key].tickets.length; i++) {
+      if(Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[key].tickets[i].isAvailable){
+        currentTicket.add(Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[key].tickets[i]);
+      }
+    }
+    
     return Dialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -763,86 +785,137 @@ class _DialogTicketsState extends State<DialogTickets> {
                     if (cinemaNotf.cinemasLoad[indexListCurrentSalle]
                             .selectedSalle.creneaux[indexSeance].tickets.length !=
                         0) {
-                      return GridView.builder(
-                          physics: ScrollPhysics(),
-                          controller:
-                              new ScrollController(keepScrollOffset: false),
-                          padding: EdgeInsets.all(30),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 5,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 4.0,
-                          ),
-                          itemCount: cinemaNotf
-                              .cinemasLoad[indexListCurrentSalle]
-                              .selectedSalle
-                              .creneaux[indexSeance]
-                              .tickets
-                              .length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              child: RaisedButton(
-                                color : Colors.white,
-                                // color: (this.currentCreneau ==
-                                //         cinemaNotf
-                                //             .cinemasLoad[indexListCurrentSalle]
-                                //             .selectedSalle
-                                //             .creneaux[index])
-                                //     ? Theme.of(context).primaryColor
-                                //     : Colors.white,
-                                child: Text(
-                                  (index+1).toString(),
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Colors.black,
-                                    // color: (this.currentCreneau ==
-                                    //         cinemaNotf
-                                    //             .cinemasLoad[
-                                    //                 indexListCurrentSalle]
-                                    //             .selectedSalle
-                                    //             .creneaux[index])
-                                    //     ? Colors.white
-                                    //     : Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.w600,
+                      return Scrollbar(
+                        controller: ScrollController(initialScrollOffset: 0),
+                        child: GridView.builder(
+                            physics: ScrollPhysics(),
+                            controller:
+                                new ScrollController(keepScrollOffset: false),
+                            padding: EdgeInsets.all(30),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 4.0,
+                            ),
+                            itemCount: cinemaNotf
+                                .cinemasLoad[indexListCurrentSalle]
+                                .selectedSalle
+                                .creneaux[indexSeance]
+                                .tickets
+                                .length,
+                            itemBuilder: (BuildContext context, int index) {
+                              bool isSelelct = false;
+                              // int indexticekt = cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].id;
+                              // for (var i = 0; i < this.currentTicket.length; i++) {
+                              //      if(this.currentTicket[i].id == indexticekt ){
+                              //        isSelelct = true;
+                              //      }
+                              // }
+                              if(cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable){
+                                isSelelct = true;
+                              }
+                              return SizedBox(
+                                child: RaisedButton(
+                                  color : isSelelct
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.white,
+                                  child: Text(
+                                    (index+1).toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: isSelelct
+                                        ? Colors.white
+                                        :Theme.of(context).primaryColor ,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
+                                  onPressed: () async {
+                                    setState(() {
+                                      if(cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable){
+                                       cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable = false;
+                                       isSelelct = false;
+                                      }else{
+                                        isSelelct = true;
+                                       cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable = true;
+                                      }
+
+                                      // print("You pressed me");
+                                      // bool returnVerf(int id, List<Ticket> ticks) {
+                                      //   for (var i = 0; i < ticks.length; i++) {
+                                      //     if(ticks[i].id == id){
+                                      //       return true;
+                                      //     }
+                                      //   }
+                                      //   return false;
+                                      // }
+                                      // if(this.currentTicket.length != 0 ){
+
+                                      
+                                      // print("this.currentTicket.length != 0");
+                                      //   int ticketId= cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].id;
+                                      //   bool removeSomething = false;
+                                      //   for (var i = 0; i < this.currentTicket.length; i++) {
+                                      //     if(){
+                                      //         this.currentTicket.remove(cinemaNotf
+                                      //           .cinemasLoad[indexListCurrentSalle]
+                                      //           .selectedSalle
+                                      //           .creneaux[indexSeance]
+                                      //           .tickets[index]);
+                                      //           removeSomething = true;
+                                      //     }
+                                      //   }
+                                      //   if(removeSomething == false){
+                                      //   print("removeSomething == false so add ");
+                                      //     this.currentTicket.add(cinemaNotf
+                                      //       .cinemasLoad[indexListCurrentSalle]
+                                      //       .selectedSalle
+                                      //       .creneaux[indexSeance]
+                                      //       .tickets[index]);
+                                      //   }
+                                      // print(this.currentTicket.length);
+
+                                      // }else{
+                                      // print("this.currentTicket.length == 0");
+                                      //   this.currentTicket.add(cinemaNotf
+                                      //       .cinemasLoad[indexListCurrentSalle]
+                                      //       .selectedSalle
+                                      //       .creneaux[indexSeance]
+                                      //       .tickets[index]);
+                                      // print(this.currentTicket.length);
+
+                                      // }
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side: BorderSide(
+                                        width: 2.0,
+                                        color: Theme.of(context).primaryColor),
+                                  ),
                                 ),
-                                onPressed: () async {
-                                  // setState(() {
-                                  // this.currentCreneau = cinemaNotf
-                                  //     .cinemasLoad[indexListCurrentSalle]
-                                  //     .selectedSalle
-                                  //     .creneaux[index];
-                                  // });
-                                },
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  side: BorderSide(
-                                      width: 2.0,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                              ),
-                            );
-                          });
+                              );
+                            }),
+                      );
                     }
                     return Text("Something is weird happned ");
                   }),
                 ),
               ),
-              // messageError != null
-              //     ? Text(
-              //         messageError,
-              //         style: TextStyle(
-              //           height: 1.5,
-              //           fontSize: 14.0,
-              //           color: Colors.red,
-              //           fontWeight: FontWeight.w600,
-              //         ),
-              //         textAlign: TextAlign.center,
-              //       )
-              //     : SizedBox(),
+              messageError != null
+                  ? Text(
+                      messageError,
+                      style: TextStyle(
+                        height: 1.5,
+                        fontSize: 14.0,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
+                  : SizedBox(),
               
               RaisedButton(
                   textColor: Colors.white,
@@ -856,17 +929,21 @@ class _DialogTicketsState extends State<DialogTickets> {
                     ),
                   ),
                   onPressed: () {
-                    // setState(() {
-                    //   if (this.currentCreneau != null) {
-                    //     Provider.of<CinemaNotifier>(context, listen: false)
-                    //         .setCurrentCreneau(currentCreneau.idProjection,
-                    //             indexListCurrentSalle);
-                    //     Navigator.pop(context);
-                    //   } else {
-                    //     this.messageError = "* You should select something";
-                    //   }
-                    //   print(this.currentCreneau.tickets[0].prix.toString());
-                    // });
+                    setState(() {
+                      bool emptyCurrentTickets = false;
+                      List<Ticket> listTicket = Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets;
+                      for (var i = 0; i < listTicket.length; i++) {
+                        if(listTicket[i].isAvailable){
+                          emptyCurrentTickets = true;
+                        }
+                      }
+                      if(!emptyCurrentTickets){
+                        this.messageError = "* You should select at least one place";
+                      }else{
+                        // Provider.of<CinemaNotifier>(context, listen: false).saveListTicket(this.currentTicket,this.indexListCurrentSalle);
+                        Navigator.pop(context);
+                      }
+                    });
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0))),

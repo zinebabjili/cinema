@@ -3,6 +3,7 @@ import 'package:cinema/models/city.dart';
 import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/film.dart';
 import 'package:cinema/models/salle.dart';
+import 'package:cinema/models/ticket.dart';
 import 'package:cinema/repository/repoCinema.dart';
 import 'package:flutter/foundation.dart';
 
@@ -14,7 +15,8 @@ class CinemaNotifier with ChangeNotifier{
   List<Film> _moviesLoad = [];
   List<Cinema> cinemasLoad = [];
   String labelSearch = "";
-  int  currentCityId  ;
+  int  currentCityId ;
+  // List<>
   // bool salleIsSelected = false;
 
 
@@ -93,14 +95,14 @@ class CinemaNotifier with ChangeNotifier{
     _repoCinema.getSeancesByFilmAndSalle(currentSalle.id, idFilm).then((value)  {
       for(var i = 0; i < value.length ; i++){
         creneaux.add(value[i]);
-        print(creneaux[i].idProjection);
+        // print(creneaux[i].idProjection);
 
       }
-      print("-----------------");
+      // print("-----------------");
       currentSalle.creneaux = creneaux;
-      for(var h = 0 ; h < currentSalle.creneaux.length; h++){
-        print(currentSalle.creneaux[h].idProjection);
-      }
+      // for(var h = 0 ; h < currentSalle.creneaux.length; h++){
+      //   print(currentSalle.creneaux[h].idProjection);
+      // }
     });
     // print("HH");
     // notifyListeners();
@@ -117,5 +119,32 @@ class CinemaNotifier with ChangeNotifier{
         element.isSelected = false;
       }
     });
+  }
+
+  void saveListTicket(List<Ticket> comingTicket, int indexCinema){
+    int key;
+    for (var f = 0 ; f < cinemasLoad[indexCinema].selectedSalle.creneaux.length; f++ ) {
+      if(cinemasLoad[indexCinema].selectedSalle.creneaux[f].isSelected){
+        key = f;
+      }
+    }
+
+    for(var i = 0 ; i < cinemasLoad[indexCinema].selectedSalle.creneaux[key].tickets.length; i++){
+      if(containTicket(comingTicket, cinemasLoad[indexCinema].selectedSalle.creneaux[key].tickets[i].id)){
+        cinemasLoad[indexCinema].selectedSalle.creneaux[key].tickets[i].isAvailable = true;
+      }else{
+        cinemasLoad[indexCinema].selectedSalle.creneaux[key].tickets[i].isAvailable = false;
+      }
+    }
+    
+  }
+
+  bool containTicket( List<Ticket> comingTicket , int id){
+    for(var i = 0 ; i < comingTicket.length; i++) {
+      if(comingTicket[i].id == id){
+        return true;
+      }
+    }
+    return false;
   }
 }

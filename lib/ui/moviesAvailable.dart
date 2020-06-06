@@ -202,6 +202,7 @@ class MovieAvailableState extends State<MovieAvailable> {
 
                         // user button
                         Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                          int nbrPlace = 0;
                           if (cinemaNotf.cinemasLoad != null) {
                             for (var i = 0;
                                 i < cinemaNotf.cinemasLoad.length;
@@ -224,6 +225,26 @@ class MovieAvailableState extends State<MovieAvailable> {
                                         .creneaux[k].isSelected) {
                                       state = true;
                                       endex = k;
+                                    }
+                                  }
+                                  if (endex != 100) {
+                                    for (var j = 0;
+                                        j <
+                                            cinemaNotf
+                                                .cinemasLoad[i]
+                                                .selectedSalle
+                                                .creneaux[endex]
+                                                .tickets
+                                                .length;
+                                        j++) {
+                                      if (cinemaNotf
+                                          .cinemasLoad[i]
+                                          .selectedSalle
+                                          .creneaux[endex]
+                                          .tickets[j]
+                                          .isAvailable) {
+                                        nbrPlace++;
+                                      }
                                     }
                                   }
                                 }
@@ -251,7 +272,10 @@ class MovieAvailableState extends State<MovieAvailable> {
                                             SizedBox(
                                               width: 10,
                                             ),
-                                            Text("Choose Place"),
+                                            nbrPlace != 0
+                                                ? Text(nbrPlace.toString() +
+                                                    " Place")
+                                                : Text("choose Place"),
                                           ],
                                         ),
                                       ),
@@ -357,14 +381,59 @@ class MovieAvailableState extends State<MovieAvailable> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0))),
                         SizedBox(height: 15),
-                        Text(
-                          "Price : \$ --,--",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        )
+                        Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                          int indexs = 1000;
+                          int ticketsNotempty = 0;
+                          double prixticket = 0.0;
+                          if (cinema.selectedSalle != null) {
+                            if (cinema.selectedSalle.creneaux != null) {
+                              for (var i = 0;
+                                  i < cinema.selectedSalle.creneaux.length;
+                                  i++) {
+                                if (cinema
+                                    .selectedSalle.creneaux[i].isSelected) {
+                                  indexs = i;
+                                }
+                              }
+                              if (indexs != 1000) {
+                                for (var i = 0;
+                                    i <
+                                        cinema.selectedSalle.creneaux[indexs]
+                                            .tickets.length;
+                                    i++) {
+                                  if (cinema.selectedSalle.creneaux[indexs]
+                                      .tickets[i].isAvailable) {
+                                    ticketsNotempty++;
+                                    prixticket = cinema.selectedSalle
+                                        .creneaux[indexs].tickets[i].prix;
+                                  }
+                                }
+                              }
+                            }
+
+                            if (ticketsNotempty == 0) {
+                              return Text(
+                                "Price : \$ --,--",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              );
+                            } else {
+                              return Text(
+                                "Price : \$" +
+                                    (prixticket * ticketsNotempty).toString(),
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              );
+                            }
+                          }
+                          return SizedBox();
+                        }),
                       ],
                     ),
                   ),
@@ -377,7 +446,7 @@ class MovieAvailableState extends State<MovieAvailable> {
     ]);
   }
 }
-// show option or sauce or choix
+// show salle or time or place
 
 _submit(context, listSalle, idCenima, idFilm, type, indexListCurrentSalle) {
   if (type == "salle") {
@@ -396,7 +465,7 @@ _submit(context, listSalle, idCenima, idFilm, type, indexListCurrentSalle) {
               idFilm: idFilm,
               indexListCurrentSalle: indexListCurrentSalle);
         });
-  } else if (type == "ticket"){
+  } else if (type == "ticket") {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -713,14 +782,18 @@ class _DialogTimeState extends State<DialogTime> {
   }
 }
 
+// place popup
 class DialogTickets extends StatefulWidget {
   final int idCenima;
   final int idFilm;
   final int indexListCurrentSalle;
 
-  const DialogTickets({Key key, this.idCenima, this.idFilm, this.indexListCurrentSalle}) : super(key: key);
+  const DialogTickets(
+      {Key key, this.idCenima, this.idFilm, this.indexListCurrentSalle})
+      : super(key: key);
   @override
-  _DialogTicketsState createState() => _DialogTicketsState(this.idCenima, this.idFilm, this.indexListCurrentSalle);
+  _DialogTicketsState createState() => _DialogTicketsState(
+      this.idCenima, this.idFilm, this.indexListCurrentSalle);
 }
 
 class _DialogTicketsState extends State<DialogTickets> {
@@ -730,29 +803,52 @@ class _DialogTicketsState extends State<DialogTickets> {
 
   int indexSeance = 0;
   List<Ticket> currentTicket = new List<Ticket>();
-  // if(){
 
-  // }
-  // //  = new List<Ticket>();
-  
   String messageError;
-
 
   _DialogTicketsState(this.idCenima, this.idFilm, this.indexListCurrentSalle);
   @override
   Widget build(BuildContext context) {
     int key = 0;
-    for (var f = 0 ; f <Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux.length; f++ ) {
-      if(Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[f].isSelected){
+    for (var f = 0;
+        f <
+            Provider.of<CinemaNotifier>(context, listen: false)
+                .cinemasLoad[indexListCurrentSalle]
+                .selectedSalle
+                .creneaux
+                .length;
+        f++) {
+      if (Provider.of<CinemaNotifier>(context, listen: false)
+          .cinemasLoad[indexListCurrentSalle]
+          .selectedSalle
+          .creneaux[f]
+          .isSelected) {
         key = f;
       }
     }
-    for (var i = 0; i < Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[key].tickets.length; i++) {
-      if(Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[key].tickets[i].isAvailable){
-        currentTicket.add(Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[key].tickets[i]);
+    for (var i = 0;
+        i <
+            Provider.of<CinemaNotifier>(context, listen: false)
+                .cinemasLoad[indexListCurrentSalle]
+                .selectedSalle
+                .creneaux[key]
+                .tickets
+                .length;
+        i++) {
+      if (Provider.of<CinemaNotifier>(context, listen: false)
+          .cinemasLoad[indexListCurrentSalle]
+          .selectedSalle
+          .creneaux[key]
+          .tickets[i]
+          .isAvailable) {
+        currentTicket.add(Provider.of<CinemaNotifier>(context, listen: false)
+            .cinemasLoad[indexListCurrentSalle]
+            .selectedSalle
+            .creneaux[key]
+            .tickets[i]);
       }
     }
-    
+
     return Dialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -775,15 +871,23 @@ class _DialogTicketsState extends State<DialogTickets> {
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.55,
                   child: Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
-                    
-                    for (var i = 0; i <cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux.length; i++) {
-                      if(cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[i].isSelected){
+                    for (var i = 0;
+                        i <
+                            cinemaNotf.cinemasLoad[indexListCurrentSalle]
+                                .selectedSalle.creneaux.length;
+                        i++) {
+                      if (cinemaNotf.cinemasLoad[indexListCurrentSalle]
+                          .selectedSalle.creneaux[i].isSelected) {
                         indexSeance = i;
                       }
                     }
 
-                    if (cinemaNotf.cinemasLoad[indexListCurrentSalle]
-                            .selectedSalle.creneaux[indexSeance].tickets.length !=
+                    if (cinemaNotf
+                            .cinemasLoad[indexListCurrentSalle]
+                            .selectedSalle
+                            .creneaux[indexSeance]
+                            .tickets
+                            .length !=
                         0) {
                       return Scrollbar(
                         controller: ScrollController(initialScrollOffset: 0),
@@ -807,86 +911,54 @@ class _DialogTicketsState extends State<DialogTickets> {
                                 .length,
                             itemBuilder: (BuildContext context, int index) {
                               bool isSelelct = false;
-                              // int indexticekt = cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].id;
-                              // for (var i = 0; i < this.currentTicket.length; i++) {
-                              //      if(this.currentTicket[i].id == indexticekt ){
-                              //        isSelelct = true;
-                              //      }
-                              // }
-                              if(cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable){
+                              if (cinemaNotf
+                                  .cinemasLoad[indexListCurrentSalle]
+                                  .selectedSalle
+                                  .creneaux[indexSeance]
+                                  .tickets[index]
+                                  .isAvailable) {
                                 isSelelct = true;
                               }
                               return SizedBox(
                                 child: RaisedButton(
-                                  color : isSelelct
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.white,
+                                  color: isSelelct
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.white,
                                   child: Text(
-                                    (index+1).toString(),
+                                    (index + 1).toString(),
                                     style: TextStyle(
                                       fontSize: 12.0,
                                       color: isSelelct
-                                        ? Colors.white
-                                        :Theme.of(context).primaryColor ,
+                                          ? Colors.white
+                                          : Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.w600,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
                                   onPressed: () async {
                                     setState(() {
-                                      if(cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable){
-                                       cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable = false;
-                                       isSelelct = false;
-                                      }else{
+                                      if (cinemaNotf
+                                          .cinemasLoad[indexListCurrentSalle]
+                                          .selectedSalle
+                                          .creneaux[indexSeance]
+                                          .tickets[index]
+                                          .isAvailable) {
+                                        cinemaNotf
+                                            .cinemasLoad[indexListCurrentSalle]
+                                            .selectedSalle
+                                            .creneaux[indexSeance]
+                                            .tickets[index]
+                                            .isAvailable = false;
+                                        isSelelct = false;
+                                      } else {
                                         isSelelct = true;
-                                       cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].isAvailable = true;
+                                        cinemaNotf
+                                            .cinemasLoad[indexListCurrentSalle]
+                                            .selectedSalle
+                                            .creneaux[indexSeance]
+                                            .tickets[index]
+                                            .isAvailable = true;
                                       }
-
-                                      // print("You pressed me");
-                                      // bool returnVerf(int id, List<Ticket> ticks) {
-                                      //   for (var i = 0; i < ticks.length; i++) {
-                                      //     if(ticks[i].id == id){
-                                      //       return true;
-                                      //     }
-                                      //   }
-                                      //   return false;
-                                      // }
-                                      // if(this.currentTicket.length != 0 ){
-
-                                      
-                                      // print("this.currentTicket.length != 0");
-                                      //   int ticketId= cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets[index].id;
-                                      //   bool removeSomething = false;
-                                      //   for (var i = 0; i < this.currentTicket.length; i++) {
-                                      //     if(){
-                                      //         this.currentTicket.remove(cinemaNotf
-                                      //           .cinemasLoad[indexListCurrentSalle]
-                                      //           .selectedSalle
-                                      //           .creneaux[indexSeance]
-                                      //           .tickets[index]);
-                                      //           removeSomething = true;
-                                      //     }
-                                      //   }
-                                      //   if(removeSomething == false){
-                                      //   print("removeSomething == false so add ");
-                                      //     this.currentTicket.add(cinemaNotf
-                                      //       .cinemasLoad[indexListCurrentSalle]
-                                      //       .selectedSalle
-                                      //       .creneaux[indexSeance]
-                                      //       .tickets[index]);
-                                      //   }
-                                      // print(this.currentTicket.length);
-
-                                      // }else{
-                                      // print("this.currentTicket.length == 0");
-                                      //   this.currentTicket.add(cinemaNotf
-                                      //       .cinemasLoad[indexListCurrentSalle]
-                                      //       .selectedSalle
-                                      //       .creneaux[indexSeance]
-                                      //       .tickets[index]);
-                                      // print(this.currentTicket.length);
-
-                                      // }
                                     });
                                   },
                                   shape: RoundedRectangleBorder(
@@ -916,7 +988,6 @@ class _DialogTicketsState extends State<DialogTickets> {
                       textAlign: TextAlign.center,
                     )
                   : SizedBox(),
-              
               RaisedButton(
                   textColor: Colors.white,
                   color: Colors.deepOrange,
@@ -931,15 +1002,21 @@ class _DialogTicketsState extends State<DialogTickets> {
                   onPressed: () {
                     setState(() {
                       bool emptyCurrentTickets = false;
-                      List<Ticket> listTicket = Provider.of<CinemaNotifier>(context, listen: false).cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[indexSeance].tickets;
+                      List<Ticket> listTicket =
+                          Provider.of<CinemaNotifier>(context, listen: false)
+                              .cinemasLoad[indexListCurrentSalle]
+                              .selectedSalle
+                              .creneaux[indexSeance]
+                              .tickets;
                       for (var i = 0; i < listTicket.length; i++) {
-                        if(listTicket[i].isAvailable){
+                        if (listTicket[i].isAvailable) {
                           emptyCurrentTickets = true;
                         }
                       }
-                      if(!emptyCurrentTickets){
-                        this.messageError = "* You should select at least one place";
-                      }else{
+                      if (!emptyCurrentTickets) {
+                        this.messageError =
+                            "* You should select at least one place";
+                      } else {
                         // Provider.of<CinemaNotifier>(context, listen: false).saveListTicket(this.currentTicket,this.indexListCurrentSalle);
                         Navigator.pop(context);
                       }

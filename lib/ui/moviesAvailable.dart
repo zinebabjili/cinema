@@ -91,7 +91,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                               ),
                             ),
                             onPressed: () => _submit(context, cinema.salles,
-                                cinema.id, widget.film.id, "salle",0),
+                                cinema.id, widget.film.id, "salle", 0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0))),
                         // time button
@@ -108,16 +108,22 @@ class MovieAvailableState extends State<MovieAvailable> {
                                             .creneaux.length !=
                                         0) {
                                   currentSeance = "choose time";
-                                  for(var g = 0 ; g < cinemaNotf.cinemasLoad[i].selectedSalle.creneaux.length ; g++){
-                                      if(cinemaNotf.cinemasLoad[i].selectedSalle.creneaux[g].isSelected){
-                                        currentSeance = cinemaNotf.cinemasLoad[i].selectedSalle.creneaux[g].heure.substring(0,5);
-                                      }
-
+                                  for (var g = 0;
+                                      g <
+                                          cinemaNotf.cinemasLoad[i]
+                                              .selectedSalle.creneaux.length;
+                                      g++) {
+                                    if (cinemaNotf.cinemasLoad[i].selectedSalle
+                                        .creneaux[g].isSelected) {
+                                      currentSeance = cinemaNotf.cinemasLoad[i]
+                                          .selectedSalle.creneaux[g].heure
+                                          .substring(0, 5);
+                                    }
                                   }
                                   // if (cinemaNotf.getSalleSelectedName(cinema.id) != cinemaNotf.cinemasLoad[i].selectedSalle.name ){
                                   //   currentSeance = "choose time";
                                   // }
-                               
+
                                   return RaisedButton(
                                       textColor: Colors.white,
                                       color: Colors.black,
@@ -150,8 +156,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                           cinema.id,
                                           widget.film.id,
                                           "time",
-                                          i
-                                          ),
+                                          i),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               new BorderRadius.circular(30.0)));
@@ -191,36 +196,138 @@ class MovieAvailableState extends State<MovieAvailable> {
                             }
                           },
                         ),
-                        
+
                         // user button
-                        RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.black,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
+                        Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                          if (cinemaNotf.cinemasLoad != null) {
+                            for (var i = 0;
+                                i < cinemaNotf.cinemasLoad.length;
+                                i++) {
+                              if (cinemaNotf.cinemasLoad[i].id == cinema.id) {
+                                bool state = false;
+                                int endex = 100;
+                                if (cinemaNotf.cinemasLoad[i].selectedSalle
+                                            .creneaux !=
+                                        null &&
+                                    cinemaNotf.cinemasLoad[i].selectedSalle
+                                            .creneaux.length !=
+                                        0) {
+                                  for (var k = 0;
+                                      k <
+                                          cinemaNotf.cinemasLoad[i]
+                                              .selectedSalle.creneaux.length;
+                                      k++) {
+                                    if (cinemaNotf.cinemasLoad[i].selectedSalle
+                                        .creneaux[k].isSelected) {
+                                      state = true;
+                                      endex = k;
+                                    }
+                                  }
+                                }
+
+                                if (state) {
+                                  return RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.black,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                child: Icon(
+                                                  FontAwesomeIcons.receipt,
+                                                  color: Colors.black,
+                                                )),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text("Choose Place"),
+                                          ],
+                                        ),
+                                      ),
+                                      onPressed: () => _submit(
+                                          context,
+                                          cinema.salles,
+                                          cinema.id,
+                                          widget.film.id,
+                                          "ticket",
+                                          i),
+                                      shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Icon(
-                                        FontAwesomeIcons.receipt,
-                                        color: Colors.black,
-                                      )),
-                                  SizedBox(
-                                    width: 10,
+                                              new BorderRadius.circular(30.0)));
+                                } else {
+                                  return RaisedButton(
+                                      textColor: Colors.white,
+                                      color: Colors.black,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                child: Icon(
+                                                  FontAwesomeIcons.receipt,
+                                                  color: Colors.black,
+                                                )),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text("Choose Place"),
+                                          ],
+                                        ),
+                                      ),
+                                      onPressed: null,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0)));
+                                }
+                              }
+                            }
+                          } else {
+                            return RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.black,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          child: Icon(
+                                            FontAwesomeIcons.receipt,
+                                            color: Colors.black,
+                                          )),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Choose PlaceX"),
+                                    ],
                                   ),
-                                  Text("Choose Place"),
-                                ],
-                              ),
-                            ),
-                            onPressed: null,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0))),
+                                ),
+                                onPressed: null,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)));
+                          }
+                        }),
                       ],
                     ),
                   ),
@@ -282,11 +389,24 @@ _submit(context, listSalle, idCenima, idFilm, type, indexListCurrentSalle) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return DialogTime(idCenima: idCenima, idFilm: idFilm, indexListCurrentSalle: indexListCurrentSalle);
+          return DialogTime(
+              idCenima: idCenima,
+              idFilm: idFilm,
+              indexListCurrentSalle: indexListCurrentSalle);
+        });
+  } else if (type == "ticket"){
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return DialogTickets(
+              idCenima: idCenima,
+              idFilm: idFilm,
+              indexListCurrentSalle: indexListCurrentSalle);
         });
   }
 }
 
+//Salle popup
 class DialogSalle extends StatefulWidget {
   final int idCenima;
   final int idFilm;
@@ -404,7 +524,6 @@ class _DialogSalleState extends State<DialogSalle> {
                   ),
                   onPressed: () {
                     setState(() {
-                      
                       if (this.currentSalle != null) {
                         Future.delayed(const Duration(seconds: 0), () {
                           saveIsClicked = true;
@@ -431,11 +550,14 @@ class _DialogSalleState extends State<DialogSalle> {
   }
 }
 
+//Time Popup
 class DialogTime extends StatefulWidget {
   final int idCenima;
   final int idFilm;
   final int indexListCurrentSalle;
-  const DialogTime({Key key, this.idCenima, this.idFilm, this.indexListCurrentSalle}) : super(key: key);
+  const DialogTime(
+      {Key key, this.idCenima, this.idFilm, this.indexListCurrentSalle})
+      : super(key: key);
 
   @override
   _DialogTimeState createState() =>
@@ -473,58 +595,76 @@ class _DialogTimeState extends State<DialogTime> {
               SingleChildScrollView(
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.25,
-                  child: Consumer<CinemaNotifier>(
-                        builder: (_, cinemaNotf, __) {
-                          if(cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux.length !=0 ){
-                        return  GridView.builder(
-                        controller: new ScrollController(keepScrollOffset: false),
-                        padding: EdgeInsets.all(30),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10.0,
-                        ),
-                        itemCount: cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            height: 100.0,
-                            child: RaisedButton(
-                              color: (this.currentCreneau == cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[index])
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.white,
-                              child: Text(
-                                cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[index].heure.substring(0,5),
-                                style: TextStyle(
-                                  height: 1.5,
-                                  fontSize: 12.0,
-                                  color: (this.currentCreneau == cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[index])
-                                  ? Colors.white
-                                  : Theme.of(context).primaryColor,
-
-                                  fontWeight: FontWeight.w600,
+                  child: Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                    if (cinemaNotf.cinemasLoad[indexListCurrentSalle]
+                            .selectedSalle.creneaux.length !=
+                        0) {
+                      return GridView.builder(
+                          controller:
+                              new ScrollController(keepScrollOffset: false),
+                          padding: EdgeInsets.all(30),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10.0,
+                          ),
+                          itemCount: cinemaNotf
+                              .cinemasLoad[indexListCurrentSalle]
+                              .selectedSalle
+                              .creneaux
+                              .length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 100.0,
+                              child: RaisedButton(
+                                color: (this.currentCreneau ==
+                                        cinemaNotf
+                                            .cinemasLoad[indexListCurrentSalle]
+                                            .selectedSalle
+                                            .creneaux[index])
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.white,
+                                child: Text(
+                                  cinemaNotf.cinemasLoad[indexListCurrentSalle]
+                                      .selectedSalle.creneaux[index].heure
+                                      .substring(0, 5),
+                                  style: TextStyle(
+                                    height: 1.5,
+                                    fontSize: 12.0,
+                                    color: (this.currentCreneau ==
+                                            cinemaNotf
+                                                .cinemasLoad[
+                                                    indexListCurrentSalle]
+                                                .selectedSalle
+                                                .creneaux[index])
+                                        ? Colors.white
+                                        : Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
+                                onPressed: () async {
+                                  // setState(() {
+                                  this.currentCreneau = cinemaNotf
+                                      .cinemasLoad[indexListCurrentSalle]
+                                      .selectedSalle
+                                      .creneaux[index];
+                                  // });
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  side: BorderSide(
+                                      width: 2.0,
+                                      color: Theme.of(context).primaryColor),
+                                ),
                               ),
-                              onPressed: () async {
-                                // setState(() {
-                                  this.currentCreneau = cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[index];
-                                // });
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                side: BorderSide(
-                                    width: 2.0,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            ),
-                          );
-                        });
-                        }
-                          return Text("Something is weird happned ");
-                        }
-                        
-                        ),
+                            );
+                          });
+                    }
+                    return Text("Something is weird happned ");
+                  }),
                 ),
               ),
               messageError != null
@@ -553,13 +693,180 @@ class _DialogTimeState extends State<DialogTime> {
                   onPressed: () {
                     setState(() {
                       if (this.currentCreneau != null) {
-                        Provider.of<CinemaNotifier>(context, listen: false).setCurrentCreneau(currentCreneau.idProjection, indexListCurrentSalle);
+                        Provider.of<CinemaNotifier>(context, listen: false)
+                            .setCurrentCreneau(currentCreneau.idProjection,
+                                indexListCurrentSalle);
                         Navigator.pop(context);
                       } else {
                         this.messageError = "* You should select something";
                       }
-
+                      print(this.currentCreneau.tickets[0].prix.toString());
                     });
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0))),
+            ],
+          ),
+        ));
+  }
+}
+
+class DialogTickets extends StatefulWidget {
+  final int idCenima;
+  final int idFilm;
+  final int indexListCurrentSalle;
+
+  const DialogTickets({Key key, this.idCenima, this.idFilm, this.indexListCurrentSalle}) : super(key: key);
+  @override
+  _DialogTicketsState createState() => _DialogTicketsState(this.idCenima, this.idFilm, this.indexListCurrentSalle);
+}
+
+class _DialogTicketsState extends State<DialogTickets> {
+  int idCenima;
+  int idFilm;
+  int indexListCurrentSalle;
+
+  int indexSeance = 0;
+
+  _DialogTicketsState(this.idCenima, this.idFilm, this.indexListCurrentSalle);
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.75,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "You can easly choose Your Tickets :)",
+                style: TextStyle(
+                  height: 1.5,
+                  fontSize: 14.0,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.55,
+                  child: Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
+                    
+                    for (var i = 0; i <cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux.length; i++) {
+                      if(cinemaNotf.cinemasLoad[indexListCurrentSalle].selectedSalle.creneaux[i].isSelected){
+                        indexSeance = i;
+                      }
+                    }
+
+                    if (cinemaNotf.cinemasLoad[indexListCurrentSalle]
+                            .selectedSalle.creneaux[indexSeance].tickets.length !=
+                        0) {
+                      return GridView.builder(
+                          physics: ScrollPhysics(),
+                          controller:
+                              new ScrollController(keepScrollOffset: false),
+                          padding: EdgeInsets.all(30),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 5,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 4.0,
+                          ),
+                          itemCount: cinemaNotf
+                              .cinemasLoad[indexListCurrentSalle]
+                              .selectedSalle
+                              .creneaux[indexSeance]
+                              .tickets
+                              .length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              child: RaisedButton(
+                                color : Colors.white,
+                                // color: (this.currentCreneau ==
+                                //         cinemaNotf
+                                //             .cinemasLoad[indexListCurrentSalle]
+                                //             .selectedSalle
+                                //             .creneaux[index])
+                                //     ? Theme.of(context).primaryColor
+                                //     : Colors.white,
+                                child: Text(
+                                  (index+1).toString(),
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.black,
+                                    // color: (this.currentCreneau ==
+                                    //         cinemaNotf
+                                    //             .cinemasLoad[
+                                    //                 indexListCurrentSalle]
+                                    //             .selectedSalle
+                                    //             .creneaux[index])
+                                    //     ? Colors.white
+                                    //     : Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                onPressed: () async {
+                                  // setState(() {
+                                  // this.currentCreneau = cinemaNotf
+                                  //     .cinemasLoad[indexListCurrentSalle]
+                                  //     .selectedSalle
+                                  //     .creneaux[index];
+                                  // });
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  side: BorderSide(
+                                      width: 2.0,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                            );
+                          });
+                    }
+                    return Text("Something is weird happned ");
+                  }),
+                ),
+              ),
+              // messageError != null
+              //     ? Text(
+              //         messageError,
+              //         style: TextStyle(
+              //           height: 1.5,
+              //           fontSize: 14.0,
+              //           color: Colors.red,
+              //           fontWeight: FontWeight.w600,
+              //         ),
+              //         textAlign: TextAlign.center,
+              //       )
+              //     : SizedBox(),
+              
+              RaisedButton(
+                  textColor: Colors.white,
+                  color: Colors.deepOrange,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    child: Text(
+                      "Save",
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    // setState(() {
+                    //   if (this.currentCreneau != null) {
+                    //     Provider.of<CinemaNotifier>(context, listen: false)
+                    //         .setCurrentCreneau(currentCreneau.idProjection,
+                    //             indexListCurrentSalle);
+                    //     Navigator.pop(context);
+                    //   } else {
+                    //     this.messageError = "* You should select something";
+                    //   }
+                    //   print(this.currentCreneau.tickets[0].prix.toString());
+                    // });
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0))),

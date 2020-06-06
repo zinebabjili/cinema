@@ -1,17 +1,17 @@
 class Ticket{
-  final int id;
+  final int codePayement;
   final String nomClient;
-  final double codePayement;
+  final double prix;
   final bool isAvailable;
 
-  Ticket({this.id, this.nomClient, this.codePayement, this.isAvailable});
+  Ticket({this.codePayement, this.nomClient, this.isAvailable,this.prix});
   
   factory Ticket.fromJson(Map<String, dynamic> json) {
     return Ticket(
-      id: json['id'] as int,
       nomClient: json['nomClient'] as String,
-      codePayement: json['codePayement'] as double,
-      isAvailable: json['isAvailable'] as bool,
+      codePayement: json['codePayement'] as int,
+      isAvailable: json['reserve'] as bool,
+      prix: json['prix'] as double
     );
   }
 }

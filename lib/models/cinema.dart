@@ -1,3 +1,4 @@
+import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/salle.dart';
 
 class Cinema{
@@ -11,13 +12,15 @@ class Cinema{
 
   factory Cinema.fromJson(List<dynamic> json) {
     List<Salle> newSalle = [];
+    List<Creneau> seancesBitch = new List<Creneau>();
     Salle _selectedSalle = new Salle(name: "choose salle");
 
     for( var i = 0; i< json.length ; i++){
       newSalle.add(Salle(
         id: json[i]['id'],  
         name: json[i]['name'],  
-        nbrPlaces: json[i]['nombrePlaces']
+        nbrPlaces: json[i]['nombrePlaces'],
+        creneaux: seancesBitch
       ));
     }
 

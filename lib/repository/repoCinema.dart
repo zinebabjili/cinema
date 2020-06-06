@@ -1,5 +1,6 @@
 import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/city.dart';
+import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/film.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -10,6 +11,7 @@ import 'dart:convert';
 String apiUrlCities = "http://192.168.1.102:8089/villes/";
 String apiUrlMovies = "http://192.168.1.102:8089/search/ville=";
 String apiUrlMoviesDetails = "http://192.168.1.102:8089/getCinemasSalles/ville=";
+String apiUrlSeancesOfSalle = "http://192.168.1.102:8089/getSeances/salle=";
 
 
 class RepoCinema {
@@ -85,6 +87,30 @@ class RepoCinema {
     });
 
     return cinemas ;
+  }
+
+  Future <List<Creneau>> getSeancesByFilmAndSalle(var idSalle, var idFilm) async {
+    
+    final http.Response response = await http.get(apiUrlSeancesOfSalle + idSalle.toString() + "&film=" + idFilm.toString());    
+    
+    if (response.statusCode != 200) {
+      throw Exception();
+    }
+
+    return parseCreneaux(response.body);
+  }
+
+  List<Creneau> parseCreneaux(response){
+    final jsonDecoded = json.decode(response);
+    final jsonCreneaux = jsonDecoded;
+
+    List<Creneau> seances =[];
+
+    for(var i = 0; i < jsonCreneaux.length; i++){
+      seances.add(Creneau.fromJson(jsonCreneaux[i]));
+    }
+
+    return seances ;
   }
 
 }

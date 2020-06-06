@@ -201,7 +201,7 @@ class _MovieState extends State<Movie> {
                           shrinkWrap: true,
                           itemCount: cinemaNotf.cinemasLoad.length,
                           itemBuilder: (BuildContext ctxt, int index) {
-                            return MovieAvailable(cinema: cinemaNotf.cinemasLoad[index]);
+                            return MovieAvailable(cinema: cinemaNotf.cinemasLoad[index], film: movieDesc,);
                           });
                   }
                   return Container(

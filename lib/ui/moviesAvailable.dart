@@ -362,13 +362,22 @@ class MovieAvailableState extends State<MovieAvailable> {
                   int indexs = 1000;
                   int ticketsNotempty = 0;
                   double prixticket = 0.0;
+                  String selectedCinemaName;
+                  String selectedSalleName;
+                  String selectedSeance;
+                  String selectedMovie = widget.film.titre;
                   if (cinema.selectedSalle != null) {
+                    selectedCinemaName = cinema.name;
                     if (cinema.selectedSalle.creneaux != null) {
+                      selectedSalleName = cinema.selectedSalle.name;
                       for (var i = 0;
                           i < cinema.selectedSalle.creneaux.length;
                           i++) {
                         if (cinema.selectedSalle.creneaux[i].isSelected) {
                           indexs = i;
+                          selectedSeance = cinema
+                              .selectedSalle.creneaux[i].heure
+                              .substring(0, 5);
                         }
                       }
                       if (indexs != 1000) {
@@ -392,34 +401,43 @@ class MovieAvailableState extends State<MovieAvailable> {
                     child: Column(
                       children: <Widget>[
                         (ticketsNotempty != 0)
-                        ? RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.deepOrange,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              child: Text(
-                                "Reserve",
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                            ),
-                            onPressed: () => _reserve(context, cinema),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)))
-                        :RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.deepOrange,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              child: Text(
-                                "Reserve",
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                            ),
-                            onPressed: null,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
+                            ? RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.deepOrange,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10.0),
+                                  child: Text(
+                                    "Reserve",
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                                onPressed: () => _reserve(
+                                    context,
+                                    cinema,
+                                    selectedCinemaName,
+                                    selectedSalleName,
+                                    selectedSeance,
+                                    prixticket,
+                                    ticketsNotempty,
+                                    indexs,
+                                    selectedMovie),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0)))
+                            : RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.deepOrange,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10.0),
+                                  child: Text(
+                                    "Reserve",
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                                onPressed: null,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0))),
                         SizedBox(height: 15),
                         // Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
                         (ticketsNotempty == 0)
@@ -1035,78 +1053,288 @@ class _DialogTicketsState extends State<DialogTickets> {
   }
 }
 
-_reserve(context, cinema) {
+_reserve(context, cinema, selectedCinemaName, selectedSalleName, selectedSeance,
+    prixticket, ticketsNotempty, indexs, selectedMovie) {
   showDialog(
       context: context,
       builder: (BuildContext context) {
-        return DialogReserve(cinema: cinema);
+        return DialogReserve(
+            cinema: cinema,
+            selectedCinemaName: selectedCinemaName,
+            selectedSalleName: selectedSalleName,
+            selectedSeance: selectedSeance,
+            prixticket: prixticket,
+            ticketsNotempty: ticketsNotempty,
+            indexs: indexs,
+            selectedMovie: selectedMovie);
       });
 }
 
 class DialogReserve extends StatefulWidget {
   final Cinema cinema;
+  final String selectedCinemaName;
+  final String selectedSalleName;
+  final String selectedSeance;
+  final double prixticket;
+  final int indexs;
+  final int ticketsNotempty;
+  final String selectedMovie;
 
-  const DialogReserve({Key key, this.cinema}) : super(key: key);
+  const DialogReserve(
+      {Key key,
+      this.cinema,
+      this.selectedCinemaName,
+      this.selectedSalleName,
+      this.selectedSeance,
+      this.prixticket,
+      this.indexs,
+      this.ticketsNotempty,
+      this.selectedMovie})
+      : super(key: key);
+
   @override
   _DialogReserveState createState() => _DialogReserveState(this.cinema);
 }
 
 class _DialogReserveState extends State<DialogReserve> {
   Cinema cinema;
-
+  TextEditingController codePayement = new TextEditingController();
+  String messageError;
   _DialogReserveState(this.cinema);
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.45,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "You can easily Reserve :)",
-                style: TextStyle(
-                  height: 1.5,
-                  fontSize: 14.0,
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w600,
+    return SingleChildScrollView(
+      child: Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.65,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "You can easily Reserve :)",
+                  style: TextStyle(
+                    height: 1.5,
+                    fontSize: 14.0,
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-
-              // messageError != null
-              //     ? Text(
-              //         messageError,
-              //         style: TextStyle(
-              //           height: 1.5,
-              //           fontSize: 14.0,
-              //           color: Colors.red,
-              //           fontWeight: FontWeight.w600,
-              //         ),
-              //         textAlign: TextAlign.center,
-              //       )
-              //     : SizedBox(),
-              RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.deepOrange,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Text(
-                      "Save",
-                      style: TextStyle(fontSize: 16.0),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.40,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Film",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                "Cinema",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                widget.selectedMovie,
+                                style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                widget.selectedCinemaName,
+                                style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Salle",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                "Seance",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                widget.selectedSalleName,
+                                style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                widget.selectedSeance,
+                                style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Nombre de place",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                "Total prix",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 18),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                widget.ticketsNotempty.toString() + "x place(s)",
+                                style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                (widget.prixticket*widget.ticketsNotempty).toString() + " DH",
+                                style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 18,
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    setState(() {});
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0))),
-            ],
-          ),
-        ));
+                ),
+                messageError != null
+                    ? Text(
+                        messageError,
+                        style: TextStyle(
+                          height: 1.5,
+                          fontSize: 14.0,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    : SizedBox(),
+                Padding(
+                  padding: const EdgeInsets.only(left:10.0,right: 10),
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: codePayement,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Payement Code..",
+                        prefixIcon: Icon(FontAwesomeIcons.paypal),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)))),
+                  ),
+                ),
+                RaisedButton(
+                    textColor: Colors.white,
+                    color: Colors.deepOrange,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                      child: Text(
+                        "Buy Ticket ",
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (codePayement.text == "") {
+                          messageError= "* You should put your code payement";
+                        } else {
+                          Provider.of<CinemaNotifier>(context, listen: false)
+                              .sendTickets(widget.indexs, widget.cinema,codePayement.text );
+                          // payerTickets
+                          Navigator.pop(context);
+                        }
+                      });
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0))),
+              ],
+            ),
+          )),
+    );
   }
 }

@@ -2,6 +2,7 @@ import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/city.dart';
 import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/film.dart';
+import 'package:cinema/models/sender.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -12,6 +13,7 @@ String apiUrlCities = "http://192.168.1.102:8089/villes/";
 String apiUrlMovies = "http://192.168.1.102:8089/search/ville=";
 String apiUrlMoviesDetails = "http://192.168.1.102:8089/getCinemasSalles/ville=";
 String apiUrlSeancesOfSalle = "http://192.168.1.102:8089/getSeances/salle=";
+String apiUrlPayement = "http://192.168.1.102:8089/payerLmok";
 
 
 class RepoCinema {
@@ -111,6 +113,35 @@ class RepoCinema {
     }
 
     return seances ;
+  }
+ 
+  Future<bool> payerTickets(int indexSeance, Cinema cinema, String codePayement) async {
+    List<int> ticks = new List<int>();
+
+    for(var i= 0 ; i<cinema.selectedSalle.creneaux[indexSeance].tickets.length ; i++){
+      if(cinema.selectedSalle.creneaux[indexSeance].tickets[i].isAvailable){
+        ticks.add( cinema.selectedSalle.creneaux[indexSeance].tickets[i].id);
+      }
+    }
+
+    Sender sender = new Sender(ticks, int.parse(codePayement));
+  
+    var json = jsonEncode(sender.toJson());
+  
+
+    var responseSpecia = await http.post(apiUrlPayement,
+          headers: {"Content-Type": "application/json"},
+          body: json
+    );
+
+    if (responseSpecia.statusCode != 200) {
+      throw Exception();
+    }
+
+
+
+    return true;
+
   }
 
 }

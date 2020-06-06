@@ -146,4 +146,14 @@ class CinemaNotifier with ChangeNotifier{
     }
     return false;
   }
+   
+  
+
+  void sendTickets(int indexSeance, Cinema cinema, String codePayement){
+
+    _repoCinema.payerTickets(indexSeance, cinema, codePayement).then((value) {
+      print(value);
+    });
+
+  }
 }

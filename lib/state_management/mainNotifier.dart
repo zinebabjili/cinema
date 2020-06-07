@@ -161,6 +161,7 @@ class CinemaNotifier with ChangeNotifier{
       List<Ticket> ticketsremoved = new List<Ticket>();
 
       if(value != null){
+        reservedTicket = null;
         for(var i = 0 ; i < cinema.selectedSalle.creneaux[indexSeance].tickets.length ; i++){
           if(cinema.selectedSalle.creneaux[indexSeance].tickets[i].isAvailable){
             ticketsremoved.add(cinema.selectedSalle.creneaux[indexSeance].tickets[i]);
@@ -180,6 +181,7 @@ class CinemaNotifier with ChangeNotifier{
           day = "0"+today.day.toString();
         }
         String dateSlug ="${day}-${today.month.toString().padLeft(2,'0')}-${today.year.toString().padLeft(2,'0')}";
+        
         reservedTicket = new Recu(nameMovie, nbrPlace, cinema.selectedSalle.name, cinema.name, prix, codePayement ,cinema.selectedSalle.creneaux[indexSeance].heure, dateSlug );
       }
     

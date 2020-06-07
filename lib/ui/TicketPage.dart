@@ -334,13 +334,29 @@ class TicketPage extends StatelessWidget {
           backgroundColor: Colors.grey[200],
         );
         }else{
-          return Column(
-            children: <Widget>[
-              CircularProgressIndicator(
-                backgroundColor: Colors.deepOrange,
+          return Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 10),
+                      child: Container(
+                        height: 150,
+                        width: 150,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.deepOrange,
+                        ),
+                      ),
+                    ),
+                    Center(child: Text("Please wait for it", style: TextStyle(color: Colors.black),)),
+                  ],
+                ),
               ),
-              Text("Please wait for it"),
-            ],
+            ),
           );
         }
         

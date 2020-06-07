@@ -3,6 +3,7 @@ import 'package:cinema/models/city.dart';
 import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/film.dart';
 import 'package:cinema/models/sender.dart';
+import 'package:cinema/models/ticket.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -115,7 +116,7 @@ class RepoCinema {
     return seances ;
   }
  
-  Future<bool> payerTickets(int indexSeance, Cinema cinema, String codePayement) async {
+  Future<List<Ticket>> payerTickets(int indexSeance, Cinema cinema, String codePayement) async {
     List<int> ticks = new List<int>();
 
     for(var i= 0 ; i<cinema.selectedSalle.creneaux[indexSeance].tickets.length ; i++){
@@ -140,8 +141,22 @@ class RepoCinema {
 
 
 
-    return true;
+    return parseTickets(responseSpecia.body);
 
+  }
+
+  List<Ticket> parseTickets(response){
+
+    final jsonDecoded = json.decode(response);
+    final jsonCreneaux = jsonDecoded;
+
+    List<Ticket> tickets =[];
+
+    for(var i = 0; i < jsonCreneaux.length; i++){
+      tickets.add(Ticket.fromJson(jsonCreneaux[i]));
+    }
+
+    return tickets ;
   }
 
 }

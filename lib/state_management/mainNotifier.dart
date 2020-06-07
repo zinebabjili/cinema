@@ -146,14 +146,28 @@ class CinemaNotifier with ChangeNotifier{
     }
     return false;
   }
-   
-  
 
   void sendTickets(int indexSeance, Cinema cinema, String codePayement){
-
+    print("SendTicket");
     _repoCinema.payerTickets(indexSeance, cinema, codePayement).then((value) {
-      print(value);
+      
+      List<Ticket> ticketsremoved = new List<Ticket>();
+
+      if(value != null){
+        for(var i = 0 ; i < cinema.selectedSalle.creneaux[indexSeance].tickets.length ; i++){
+          if(cinema.selectedSalle.creneaux[indexSeance].tickets[i].isAvailable){
+            ticketsremoved.add(cinema.selectedSalle.creneaux[indexSeance].tickets[i]);
+          }
+        }
+        for(var r = 0; r < ticketsremoved.length; r++){
+          cinema.selectedSalle.creneaux[indexSeance].tickets.remove(ticketsremoved[r]);
+        }
+        cinema.selectedSalle.creneaux[indexSeance].isSelected = false;
+      }
+    
     });
+
+    notifyListeners();
 
   }
 }

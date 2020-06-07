@@ -949,7 +949,7 @@ class _DialogTicketsState extends State<DialogTickets> {
                                       ? Theme.of(context).primaryColor
                                       : Colors.white,
                                   child: Text(
-                                    (index + 1).toString(),
+                                    (index+1).toString(),
                                     style: TextStyle(
                                       fontSize: 12.0,
                                       color: isSelelct
@@ -1326,10 +1326,8 @@ class _DialogReserveState extends State<DialogReserve> {
                         } else {
                           Provider.of<CinemaNotifier>(context, listen: false)
                               .sendTickets(widget.indexs, widget.cinema,codePayement.text );
-                          // payerTickets
+
                           Navigator.pop(context);
-                          Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (_) => TicketPage()));
                         }
                       });
                     },

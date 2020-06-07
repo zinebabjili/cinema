@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TicketPage extends StatelessWidget {
+  // final String nameFilm;
+
+  // const TicketPage({Key key, this.nameFilm}) : super(key: key);
+  // final String seanceDuree;
+  // final String price;
+  // final String placesNbr;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

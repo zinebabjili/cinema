@@ -5,6 +5,7 @@ import 'package:cinema/models/salle.dart';
 import 'package:cinema/models/ticket.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/styles.dart';
+import 'package:cinema/ui/TicketPage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -1327,6 +1328,8 @@ class _DialogReserveState extends State<DialogReserve> {
                               .sendTickets(widget.indexs, widget.cinema,codePayement.text );
                           // payerTickets
                           Navigator.pop(context);
+                          Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (_) => TicketPage()));
                         }
                       });
                     },

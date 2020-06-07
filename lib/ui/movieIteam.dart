@@ -92,7 +92,7 @@ class MovieIteam extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        movieSelected.duree.toString(),
+                        movieSelected.duree.floor().toString() + " h",
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.grey,
@@ -106,7 +106,7 @@ class MovieIteam extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // SizedBox(width: 40),
+                  SizedBox(width: MediaQuery.of(context).size.width*.08),
 
                   RaisedButton(
                       textColor: Colors.white,

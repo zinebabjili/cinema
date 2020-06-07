@@ -7,14 +7,18 @@ import 'package:cinema/models/ticket.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// String apiUrlCities = "http:///villes/";
-// String apiUrlMovies = "https://cinema-backend-mundia.herokuapp.com/search/ville=";
 
-String apiUrlCities = "http://192.168.1.102:8089/villes/";
-String apiUrlMovies = "http://192.168.1.102:8089/search/ville=";
-String apiUrlMoviesDetails = "http://192.168.1.102:8089/getCinemasSalles/ville=";
-String apiUrlSeancesOfSalle = "http://192.168.1.102:8089/getSeances/salle=";
-String apiUrlPayement = "http://192.168.1.102:8089/payerLmok";
+// String apiUrlCities = "localhost:8089/villes/";
+// String apiUrlMovies = "localhost/search/ville=";
+// String apiUrlMoviesDetails = "localhost/getCinemasSalles/ville=";
+// String apiUrlSeancesOfSalle = "localhost/getSeances/salle=";
+// String apiUrlPayement = "localhost/payerLmok";
+
+String apiUrlCities = "https://cinema-backend-mundia.herokuapp.com/villes/";
+String apiUrlMovies = "https://cinema-backend-mundia.herokuapp.com/search/ville=";
+String apiUrlMoviesDetails = "https://cinema-backend-mundia.herokuapp.com/getCinemasSalles/ville=";
+String apiUrlSeancesOfSalle = "https://cinema-backend-mundia.herokuapp.com/getSeances/salle=";
+String apiUrlPayement = "https://cinema-backend-mundia.herokuapp.com/payerLmok";
 
 
 class RepoCinema {

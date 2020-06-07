@@ -949,7 +949,7 @@ class _DialogTicketsState extends State<DialogTickets> {
                                       ? Theme.of(context).primaryColor
                                       : Colors.white,
                                   child: Text(
-                                    (index+1).toString(),
+                                    (index + 1).toString(),
                                     style: TextStyle(
                                       fontSize: 12.0,
                                       color: isSelelct
@@ -996,7 +996,13 @@ class _DialogTicketsState extends State<DialogTickets> {
                             }),
                       );
                     }
-                    return Text("Something is weird happned ");
+                    return Text("No Tickets Available ",
+                        style: TextStyle(
+                          height: 3.0,
+                          fontSize: 16.0,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600,
+                        ),);
                   }),
                 ),
               ),
@@ -1253,7 +1259,8 @@ class _DialogReserveState extends State<DialogReserve> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                widget.ticketsNotempty.toString() + "x place(s)",
+                                widget.ticketsNotempty.toString() +
+                                    "x place(s)",
                                 style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16.0,
@@ -1262,7 +1269,9 @@ class _DialogReserveState extends State<DialogReserve> {
                                 ),
                               ),
                               Text(
-                                (widget.prixticket*widget.ticketsNotempty).toString() + " DH",
+                                (widget.prixticket * widget.ticketsNotempty)
+                                        .toString() +
+                                    " DH",
                                 style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16.0,
@@ -1293,12 +1302,12 @@ class _DialogReserveState extends State<DialogReserve> {
                       )
                     : SizedBox(),
                 Padding(
-                  padding: const EdgeInsets.only(left:10.0,right: 10),
+                  padding: const EdgeInsets.only(left: 10.0, right: 10),
                   child: TextField(
                     keyboardType: TextInputType.number,
                     controller: codePayement,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(0),
+                        contentPadding: EdgeInsets.all(0),
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Payement Code..",
@@ -1322,12 +1331,16 @@ class _DialogReserveState extends State<DialogReserve> {
                     onPressed: () {
                       setState(() {
                         if (codePayement.text == "") {
-                          messageError= "* You should put your code payement";
+                          messageError = "* You should put your code payement";
                         } else {
                           Provider.of<CinemaNotifier>(context, listen: false)
-                              .sendTickets(widget.indexs, widget.cinema,codePayement.text );
+                              .sendTickets(widget.indexs, widget.cinema,
+                                  codePayement.text, widget.ticketsNotempty,widget.prixticket, widget.selectedMovie);
 
                           Navigator.pop(context);
+                          
+                          Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => TicketPage()));
                         }
                       });
                     },

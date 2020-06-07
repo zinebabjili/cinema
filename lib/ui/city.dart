@@ -18,14 +18,15 @@ class CityPage extends StatefulWidget {
 
 class _CityPageState extends State<CityPage> {
   @override
-  void initState() {
-    reset() async {
-      Provider.of<CinemaNotifier>(context, listen: false).reSetValue();
-      print("reset with success");
-    }
-    reset.call();
-    super.initState();
-  }
+  // void initState() {
+  //   reset() async {
+  //     Provider.of<CinemaNotifier>(context, listen: false).reSetValue();
+  //     print("reset with success");
+  //   }
+
+  //   reset.call();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -142,17 +143,29 @@ class _CityPageState extends State<CityPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => TicketPage()));
+                              Consumer<CinemaNotifier>(
+                                builder: (_, cinemaNotf, __) {
+                                  if (cinemaNotf.reservedTicket != null) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (_) => TicketPage()));
+                                      },
+                                      child: Icon(
+                                        Icons.assignment,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  }
+                                  return Icon(
+                                    Icons.assignment,
+                                    size: 30,
+                                    color: Colors.white60,
+                                  );
                                 },
-                                child: Icon(
-                                  Icons.assignment,
-                                  size: 30,
-                                  color: Colors.white70,
-                                ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -193,7 +206,10 @@ class _CityPageState extends State<CityPage> {
                                           Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder: (_) =>
-                                                      MovieListIteams(currentCity: snapshot.data[index],)));
+                                                      MovieListIteams(
+                                                        currentCity: snapshot
+                                                            .data[index],
+                                                      )));
                                         },
                                         child: Text(
                                           snapshot.data[index].name,

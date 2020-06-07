@@ -2,10 +2,12 @@ import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/city.dart';
 import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/film.dart';
+import 'package:cinema/models/recu.dart';
 import 'package:cinema/models/salle.dart';
 import 'package:cinema/models/ticket.dart';
 import 'package:cinema/repository/repoCinema.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 class CinemaNotifier with ChangeNotifier{
 
@@ -16,6 +18,11 @@ class CinemaNotifier with ChangeNotifier{
   List<Cinema> cinemasLoad = [];
   String labelSearch = "";
   int  currentCityId ;
+  Recu reservedTicket;
+  // DateTime now = new DateTime.now();   
+  // DateFormat formatter = new DateFormat('yyyy-MM-dd');  
+  // String formatted = formatter.format(now);
+
   // List<>
   // bool salleIsSelected = false;
 
@@ -147,8 +154,8 @@ class CinemaNotifier with ChangeNotifier{
     return false;
   }
 
-  void sendTickets(int indexSeance, Cinema cinema, String codePayement){
-    print("SendTicket");
+  void sendTickets(int indexSeance, Cinema cinema, String codePayement, int nbrPlace, double prix, String nameMovie){
+
     _repoCinema.payerTickets(indexSeance, cinema, codePayement).then((value) {
       
       List<Ticket> ticketsremoved = new List<Ticket>();
@@ -163,6 +170,17 @@ class CinemaNotifier with ChangeNotifier{
           cinema.selectedSalle.creneaux[indexSeance].tickets.remove(ticketsremoved[r]);
         }
         cinema.selectedSalle.creneaux[indexSeance].isSelected = false;
+
+        // reservedTicket = new Recu(cinema.name, nbrPlace, cinema.selectedSalle.name, nameCinema, prix, codePayement)
+
+
+        DateTime today = new DateTime.now();
+        String day = today.day.toString();
+        if(today.day < 10){
+          day = "0"+today.day.toString();
+        }
+        String dateSlug ="${day}-${today.month.toString().padLeft(2,'0')}-${today.year.toString().padLeft(2,'0')}";
+        reservedTicket = new Recu(nameMovie, nbrPlace, cinema.selectedSalle.name, cinema.name, prix, codePayement ,cinema.selectedSalle.creneaux[indexSeance].heure, dateSlug );
       }
     
     });

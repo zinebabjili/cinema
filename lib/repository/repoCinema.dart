@@ -14,11 +14,11 @@ import 'dart:convert';
 // String apiUrlSeancesOfSalle = "localhost/getSeances/salle=";
 // String apiUrlPayement = "localhost/payerLmok";
 
-String apiUrlCities = "https://cinema-backend-mundia.herokuapp.com/villes/";
-String apiUrlMovies = "https://cinema-backend-mundia.herokuapp.com/search/ville=";
-String apiUrlMoviesDetails = "https://cinema-backend-mundia.herokuapp.com/getCinemasSalles/ville=";
-String apiUrlSeancesOfSalle = "https://cinema-backend-mundia.herokuapp.com/getSeances/salle=";
-String apiUrlPayement = "https://cinema-backend-mundia.herokuapp.com/payerLmok";
+String apiUrlCities = "http://cinema-backend-mundia.herokuapp.com/villes/";
+String apiUrlMovies = "http://cinema-backend-mundia.herokuapp.com/search/ville=";
+String apiUrlMoviesDetails = "http://cinema-backend-mundia.herokuapp.com/getCinemasSalles/ville=";
+String apiUrlSeancesOfSalle = "http://cinema-backend-mundia.herokuapp.com/getSeances/salle=";
+String apiUrlPayement = "http://cinema-backend-mundia.herokuapp.com/payerLmok";
 
 
 class RepoCinema {

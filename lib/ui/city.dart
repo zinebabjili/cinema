@@ -5,8 +5,10 @@
 import 'package:cinema/models/city.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/ui/TicketPage.dart';
+import 'package:cinema/ui/currentLoc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'movieListIteams.dart';
@@ -37,6 +39,18 @@ class _CityPageState extends State<CityPage> {
           if (snapshot.data != null) {
             if (snapshot.data.isEmpty) {
               return Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.locationArrow,
+                  ),
+                  backgroundColor: Colors.orangeAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                ),
                 body: SafeArea(
                   child: Container(
                     decoration: BoxDecoration(
@@ -109,6 +123,18 @@ class _CityPageState extends State<CityPage> {
               );
             } else {
               return Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.locationArrow,
+                  ),
+                  backgroundColor: Colors.orangeAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                ),
                 body: SafeArea(
                   child: Container(
                     decoration: BoxDecoration(
@@ -233,6 +259,18 @@ class _CityPageState extends State<CityPage> {
             }
           } else {
             return Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
+                },
+                child: Icon(
+                  FontAwesomeIcons.locationArrow,
+                ),
+                backgroundColor: Colors.orangeAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              ),
               body: SafeArea(
                 child: Container(
                   decoration: BoxDecoration(
@@ -297,7 +335,7 @@ class _CityPageState extends State<CityPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],
-                          ))
+                          )),
                     ],
                   ),
                 ),

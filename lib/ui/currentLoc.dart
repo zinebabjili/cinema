@@ -1,7 +1,15 @@
+import 'package:cinema/models/city.dart';
+import 'package:cinema/services/locationService.dart';
+import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart';
+import 'package:location/location.dart';
+import 'package:provider/provider.dart';
+
+import 'movieListIteams.dart';
 
 class CurrentLoc extends StatefulWidget {
   @override
@@ -13,43 +21,78 @@ class _CurrentLocState extends State<CurrentLoc> {
   @override
   void initState() {
     super.initState();
-    _listMarker.add(
-      Marker(
-        width: 75.0,
-        height: 75.0,
-        point: new LatLng(33.5906583, -7.579412),
-        builder: (context) => new Container(
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                  alignment: Alignment.topCenter,
-                    child: Text(
-                      'casablanca',
-                      style: TextStyle(
-                        color: Colors.orangeAccent,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold
+  }
+
+  createMarkers() {
+    List<City> cities = Provider.of<CinemaNotifier>(context).citiesLoad;
+    for (var i = 0; i < cities.length; i++) {
+      _listMarker.add(Marker(
+          width: 75.0,
+          height: 75.0,
+          point: new LatLng(cities[i].lat, cities[i].lng),
+          builder: (context) => new Container(
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        cities[i].name,
+                        style: TextStyle(
+                            color: Colors.orangeAccent,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                      ),
-                  ),
-                  Center(
-                    child: IconButton(
-                      icon: Icon(Icons.location_on),
-                      color: Colors.orangeAccent,
-                      iconSize: 45.0,
-                      onPressed: () {
-                        print('Marker tapped');
-                      },
                     ),
-                  ),
-                ],
-              ),
-            )));
+                    Center(
+                      child: IconButton(
+                        icon: Icon(Icons.location_on),
+                        color: Colors.orangeAccent,
+                        iconSize: 45.0,
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => MovieListIteams(
+                                    currentCity: cities[i],
+                                  )));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )));
+    }
+  }
+
+  useCurrentLoc(UserLocation userLocation) async {
+    List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(
+        userLocation.latitude, userLocation.longitude);
+    bool find=false;
+    List<City> cities = Provider.of<CinemaNotifier>(context,listen: false).citiesLoad;
+    for (var i = 0; i < cities.length; i++) {
+      if (cities[i].name.toLowerCase() == placemark[0].locality.toLowerCase()) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => MovieListIteams(
+                  currentCity: cities[i],
+                )));
+        find = true;
+      }
+    }
+    if(!find){
+      Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        duration: Duration(seconds: 2),
+        content:
+            Text('there are no cinema in your city' + placemark[0].locality),
+      ));
+    }
+    
   }
 
   @override
   Widget build(BuildContext context) {
+    var userLocation = Provider.of<UserLocation>(context);
+    createMarkers();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -59,7 +102,7 @@ class _CurrentLocState extends State<CurrentLoc> {
         children: <Widget>[
           FlutterMap(
               options: new MapOptions(
-                center: new LatLng(33.5906583, -7.579412),
+                center: new LatLng(34.033333, -5.0),
                 zoom: 6.0,
               ),
               layers: [
@@ -80,6 +123,7 @@ class _CurrentLocState extends State<CurrentLoc> {
               child: RaisedButton(
                 onPressed: () => {
                   // getCurrentLoc(model)
+                  useCurrentLoc(userLocation)
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

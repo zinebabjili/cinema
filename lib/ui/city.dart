@@ -3,6 +3,7 @@
 //crossAxisSpacing = A Space between widget (side by side)
 
 import 'package:cinema/models/city.dart';
+import 'package:cinema/services/AppLocalizations.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/ui/TicketPage.dart';
 import 'package:cinema/ui/currentLoc.dart';
@@ -78,7 +79,7 @@ class _CityPageState extends State<CityPage> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20),
                                 child: Text(
-                                  "Choose City",
+                                  AppLocalizations.of(context).translate('Choose City'),
                                   style: TextStyle(
                                       color: Colors.orangeAccent,
                                       fontSize: 35,
@@ -162,7 +163,7 @@ class _CityPageState extends State<CityPage> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20),
                                 child: Text(
-                                  "Choose City",
+                                  AppLocalizations.of(context).translate('Choose_City'),
                                   style: TextStyle(
                                       color: Colors.orangeAccent,
                                       fontSize: 35,
@@ -298,7 +299,7 @@ class _CityPageState extends State<CityPage> {
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                "Choose City",
+                                AppLocalizations.of(context).translate('Choose City'),
                                 style: TextStyle(
                                     color: Colors.orangeAccent,
                                     fontSize: 35,

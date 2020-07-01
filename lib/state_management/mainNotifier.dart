@@ -14,6 +14,7 @@ class CinemaNotifier with ChangeNotifier{
   RepoCinema _repoCinema = new RepoCinema();
 
   List<City> _citiesLoad = [];
+  List<City> citiesLoad = [];
   List<Film> _moviesLoad = [];
   List<Cinema> cinemasLoad = [];
   String labelSearch = "";
@@ -31,8 +32,10 @@ class CinemaNotifier with ChangeNotifier{
   Stream<List<City>> loadCities() async*{
     _repoCinema.getCity().then((onValue){
       _citiesLoad = onValue;
+      citiesLoad = onValue;
     });
     yield _citiesLoad;
+    yield citiesLoad;
     notifyListeners();
   }
 

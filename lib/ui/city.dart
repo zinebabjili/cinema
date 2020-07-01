@@ -40,17 +40,43 @@ class _CityPageState extends State<CityPage> {
           if (snapshot.data != null) {
             if (snapshot.data.isEmpty) {
               return Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
-                  },
-                  child: Icon(
-                    FontAwesomeIcons.locationArrow,
-                  ),
-                  backgroundColor: Colors.orangeAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                floatingActionButton:
+                 Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:8.0),
+                      child: FloatingActionButton(
+                        heroTag: 'localisation',
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.locationArrow,
+                        ),
+                        backgroundColor: Colors.orangeAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:8.0),
+                      child: FloatingActionButton(
+                        heroTag: 'lang',
+                        onPressed: () {
+                          Provider.of<CinemaNotifier>(context, listen: false).changeLang();
+                        },
+                        child: 
+                        (Provider.of<CinemaNotifier>(context).currentLang == Locale('en', 'US'))
+                        ? DrapeauCircular(nameCountry: 'uk')
+                        : DrapeauCircular(nameCountry: 'fr'),
+                        backgroundColor: Colors.orangeAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                      ),
+                    ),
+                  ],
                 ),
                 body: SafeArea(
                   child: Container(
@@ -79,7 +105,7 @@ class _CityPageState extends State<CityPage> {
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20),
                                 child: Text(
-                                  AppLocalizations.of(context).translate('Choose City'),
+                                  AppLocalizations.of(context).translate('Choose_City'),
                                   style: TextStyle(
                                       color: Colors.orangeAccent,
                                       fontSize: 35,
@@ -124,17 +150,43 @@ class _CityPageState extends State<CityPage> {
               );
             } else {
               return Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
-                  },
-                  child: Icon(
-                    FontAwesomeIcons.locationArrow,
-                  ),
-                  backgroundColor: Colors.orangeAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                floatingActionButton: 
+                Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:8.0),
+                      child: FloatingActionButton(
+                        heroTag: 'localisation',
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.locationArrow,
+                        ),
+                        backgroundColor: Colors.orangeAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:8.0),
+                      child: FloatingActionButton(
+                        heroTag: 'lang',
+                        onPressed: () {
+                          Provider.of<CinemaNotifier>(context, listen: false).changeLang();
+                        },
+                        child: 
+                        (Provider.of<CinemaNotifier>(context).currentLang == Locale('en', 'US'))
+                        ? DrapeauCircular(nameCountry: 'uk')
+                        : DrapeauCircular(nameCountry: 'fr'),
+                        backgroundColor: Colors.orangeAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                      ),
+                    ),
+                  ],
                 ),
                 body: SafeArea(
                   child: Container(
@@ -260,18 +312,44 @@ class _CityPageState extends State<CityPage> {
             }
           } else {
             return Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
-                },
-                child: Icon(
-                  FontAwesomeIcons.locationArrow,
+              floatingActionButton: 
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:8.0),
+                      child: FloatingActionButton(
+                        heroTag: 'localisation',
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (_) => CurrentLoc()));
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.locationArrow,
+                        ),
+                        backgroundColor: Colors.orangeAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:8.0),
+                      child: FloatingActionButton(
+                        heroTag: 'lang',
+                        onPressed: () {
+                          Provider.of<CinemaNotifier>(context, listen: false).changeLang();
+                        },
+                        child: 
+                        (Provider.of<CinemaNotifier>(context).currentLang == Locale('en', 'US'))
+                        ? DrapeauCircular(nameCountry: 'uk')
+                        : DrapeauCircular(nameCountry: 'fr'),
+                        backgroundColor: Colors.orangeAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                      ),
+                    ),
+                  ],
                 ),
-                backgroundColor: Colors.orangeAccent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
-              ),
               body: SafeArea(
                 child: Container(
                   decoration: BoxDecoration(
@@ -299,7 +377,7 @@ class _CityPageState extends State<CityPage> {
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                AppLocalizations.of(context).translate('Choose City'),
+                                AppLocalizations.of(context).translate('Choose_City'),
                                 style: TextStyle(
                                     color: Colors.orangeAccent,
                                     fontSize: 35,
@@ -344,5 +422,23 @@ class _CityPageState extends State<CityPage> {
             );
           }
         });
+  }
+}
+class DrapeauCircular extends StatelessWidget {
+  final String nameCountry;
+
+  const DrapeauCircular({Key key, this.nameCountry}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      clipBehavior: Clip.antiAlias,
+      child: Image.asset(
+        'assets/images/' + nameCountry + '.png',
+        fit: BoxFit.fill,
+        height: double.infinity,
+      ),
+    );
   }
 }

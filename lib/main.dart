@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           // If device not support with locale to get language code then default get first on from the list
           return supportedLocales.first;
         },
-        locale: Locale('fr', ''),
+        locale: Provider.of<CinemaNotifier>(context).currentLang,
         debugShowCheckedModeBanner: false,
         theme: themeData(),
         initialRoute: '/',

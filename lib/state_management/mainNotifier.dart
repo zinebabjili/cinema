@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/city.dart';
 import 'package:cinema/models/creneau.dart';
@@ -7,7 +9,6 @@ import 'package:cinema/models/salle.dart';
 import 'package:cinema/models/ticket.dart';
 import 'package:cinema/repository/repoCinema.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 
 class CinemaNotifier with ChangeNotifier{
 
@@ -20,6 +21,7 @@ class CinemaNotifier with ChangeNotifier{
   String labelSearch = "";
   int  currentCityId ;
   Recu reservedTicket;
+  Locale currentLang = Locale('en', 'US');
   // DateTime now = new DateTime.now();   
   // DateFormat formatter = new DateFormat('yyyy-MM-dd');  
   // String formatted = formatter.format(now);
@@ -56,6 +58,14 @@ class CinemaNotifier with ChangeNotifier{
     notifyListeners();
   }
 
+  void changeLang(){
+    if(currentLang == Locale('en', 'US') ){
+      currentLang = Locale('fr', '');
+    }else{
+      currentLang = Locale('en', 'US');
+    }
+
+  }
 
   void loadMoviesDetails(idFilm) {
     cinemasLoad =null;

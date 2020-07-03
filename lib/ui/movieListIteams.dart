@@ -4,6 +4,8 @@ import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/ui/movieIteam.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cinema/services/AppLocalizations.dart';
+
 
 class MovieListIteams extends StatefulWidget {
   final City currentCity;
@@ -33,8 +35,8 @@ class _MovieListIteamsState extends State<MovieListIteams> {
         elevation: 0.0,
         centerTitle: true,
         title: !isShearching
-            ? Text(
-                "Movie List ",
+            ? Text( 
+                AppLocalizations.of(context).translate('movie_list'),
                 style: TextStyle(fontSize: 22),
               )
             : SearchInput(
@@ -85,7 +87,7 @@ class _MovieListIteamsState extends State<MovieListIteams> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  "Results : " + currentCity.name,
+                  AppLocalizations.of(context).translate('results_movies') +": " + currentCity.name,
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),

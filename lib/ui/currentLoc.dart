@@ -63,11 +63,13 @@ class _CurrentLocState extends State<CurrentLoc> {
     }
   }
 
-  useCurrentLoc(UserLocation userLocation) async {
+  useCurrentLoc(UserLocation userLocation, context) async {
     List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(
+      
         userLocation.latitude, userLocation.longitude);
-    bool find=false;
-    List<City> cities = Provider.of<CinemaNotifier>(context,listen: false).citiesLoad;
+    bool find = false;
+    List<City> cities =
+        Provider.of<CinemaNotifier>(context, listen: false).citiesLoad;
     for (var i = 0; i < cities.length; i++) {
       if (cities[i].name.toLowerCase() == placemark[0].locality.toLowerCase()) {
         Navigator.of(context).push(MaterialPageRoute(
@@ -77,16 +79,17 @@ class _CurrentLocState extends State<CurrentLoc> {
         find = true;
       }
     }
-    if(!find){
-      Scaffold.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        duration: Duration(seconds: 2),
-        content:
-            Text('there are no cinema in your city' + placemark[0].locality),
-      ));
+    if (!find) {
+      print("NOTHING");
+      reserve(context, placemark[0].locality);
+      // Scaffold.of(context)
+      // ..removeCurrentSnackBar()
+      // ..showSnackBar(SnackBar(
+      //   duration: Duration(seconds: 2),
+      //   content:
+      //       Text('there are no cinema in your city' + placemark[0].locality),
+      // ));
     }
-    
   }
 
   @override
@@ -123,7 +126,7 @@ class _CurrentLocState extends State<CurrentLoc> {
               child: RaisedButton(
                 onPressed: () => {
                   // getCurrentLoc(model)
-                  useCurrentLoc(userLocation)
+                  useCurrentLoc(userLocation, context)
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -157,5 +160,60 @@ class _CurrentLocState extends State<CurrentLoc> {
         ],
       ),
     );
+  }
+}
+
+reserve(context, cityName) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialoge(cityName);
+      });
+}
+
+class Dialoge extends StatelessWidget {
+  final String cityName;
+
+  const Dialoge(this.cityName);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.30,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(
+                "No Film Found : " + cityName,
+                style: TextStyle(
+                  height: .5,
+                  fontSize: 14.0,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              RaisedButton(
+                  textColor: Colors.white,
+                  color: Colors.deepOrange,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    child: Text(
+                      "OK",
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ),
+                  onPressed: () => {
+                    Navigator.pop(context),
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0)))
+            ],
+          ),
+        ));
   }
 }

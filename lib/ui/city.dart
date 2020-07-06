@@ -135,7 +135,7 @@ class _CityPageState extends State<CityPage> {
                                 CircularProgressIndicator(
                                     backgroundColor: Colors.white),
                                 Text(
-                                  "Data is loading please wait for it",
+                                  AppLocalizations.of(context).translate('loading_message'),
                                   style: Theme.of(context).textTheme.body1,
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
@@ -407,7 +407,7 @@ class _CityPageState extends State<CityPage> {
                               CircularProgressIndicator(
                                   backgroundColor: Colors.white),
                               Text(
-                                "Data is loading please wait for it",
+                                AppLocalizations.of(context).translate('loading_message'),
                                 style: Theme.of(context).textTheme.body1,
                                 textAlign: TextAlign.center,
                                 maxLines: 1,

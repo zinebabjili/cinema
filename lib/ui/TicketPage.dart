@@ -1,4 +1,5 @@
 import 'package:cinema/models/recu.dart';
+import 'package:cinema/services/AppLocalizations.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/ui/city.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class TicketPage extends StatelessWidget {
           return Scaffold(
           appBar: AppBar(
             title: Text(
-              "Ticket Page",
+              AppLocalizations.of(context).translate('ticket_page'),
               style: TextStyle(color: Colors.white),
             ),
             centerTitle: true,
@@ -78,7 +79,7 @@ class TicketPage extends StatelessWidget {
                                             new BorderRadius.circular(20.0)),
                                     textColor: Colors.black,
                                     child: Text(
-                                      "code payement #"+cinemaNotf.reservedTicket.codePayement,
+                                      AppLocalizations.of(context).translate('code_payement') + " #"+cinemaNotf.reservedTicket.codePayement,
                                       style: TextStyle(fontSize: 12),
                                     ),
                                     borderSide: BorderSide(
@@ -166,7 +167,7 @@ class TicketPage extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Cenima",
+                                    AppLocalizations.of(context).translate('cinema'),
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey,
@@ -206,7 +207,7 @@ class TicketPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    "Total Price",
+                                    AppLocalizations.of(context).translate('total'),
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey,
@@ -214,7 +215,7 @@ class TicketPage extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    'Seance',
+                                    AppLocalizations.of(context).translate('seance'),
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey,
@@ -352,7 +353,7 @@ class TicketPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Center(child: Text("Please wait for it", style: TextStyle(color: Colors.black),)),
+                    Center(child: Text(AppLocalizations.of(context).translate('ticket_loading'), style: TextStyle(color: Colors.black),)),
                   ],
                 ),
               ),

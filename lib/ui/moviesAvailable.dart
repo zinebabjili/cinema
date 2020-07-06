@@ -3,6 +3,7 @@ import 'package:cinema/models/creneau.dart';
 import 'package:cinema/models/film.dart';
 import 'package:cinema/models/salle.dart';
 import 'package:cinema/models/ticket.dart';
+import 'package:cinema/services/AppLocalizations.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:cinema/styles.dart';
 import 'package:cinema/ui/TicketPage.dart';
@@ -32,6 +33,7 @@ class MovieAvailableState extends State<MovieAvailable> {
 
   @override
   Widget build(BuildContext context) {
+    currentSeance = AppLocalizations.of(context).translate('select_time');
     return Stack(children: <Widget>[
       Padding(
         padding: const EdgeInsets.only(top: 8),
@@ -46,7 +48,7 @@ class MovieAvailableState extends State<MovieAvailable> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, left: 15.0),
                 child: Text(
-                  "Available on ${cinema.name}",
+                  AppLocalizations.of(context).translate('available') +  " ${cinema.name}",
                   style: TitleTextStyle,
                   textAlign: TextAlign.start,
                 ),
@@ -86,8 +88,11 @@ class MovieAvailableState extends State<MovieAvailable> {
                                 // : Text("Choose Salle "),
                                 Consumer<CinemaNotifier>(
                                   builder: (_, cinemaNotf, __) {
-                                    return Text(cinemaNotf
-                                        .getSalleSelectedName(cinema.id));
+                                    String v = cinemaNotf.getSalleSelectedName(cinema.id);
+                                    if(cinemaNotf.getSalleSelectedName(cinema.id) == "Choose salle"){
+                                      v = AppLocalizations.of(context).translate('select_salle');
+                                    }
+                                    return Text(v);
                                   },
                                 ),
                               ],
@@ -110,7 +115,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                   cinemaNotf.cinemasLoad[i].selectedSalle
                                           .creneaux.length !=
                                       0) {
-                                currentSeance = "choose time";
+                                currentSeance = AppLocalizations.of(context).translate('select_time');
                                 for (var g = 0;
                                     g <
                                         cinemaNotf.cinemasLoad[i].selectedSalle
@@ -186,7 +191,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                           SizedBox(
                                             width: 10,
                                           ),
-                                          Text("Choose Time"),
+                                          Text(AppLocalizations.of(context).translate('select_time')),
                                         ],
                                       ),
                                     ),
@@ -275,7 +280,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                           nbrPlace != 0
                                               ? Text(nbrPlace.toString() +
                                                   " Place")
-                                              : Text("choose Place"),
+                                              : Text(AppLocalizations.of(context).translate('select_place')),
                                         ],
                                       ),
                                     ),
@@ -312,7 +317,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                           SizedBox(
                                             width: 10,
                                           ),
-                                          Text("Choose Place"),
+                                          Text(AppLocalizations.of(context).translate('select_place')),
                                         ],
                                       ),
                                     ),
@@ -409,7 +414,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 20.0, vertical: 10.0),
                                   child: Text(
-                                    "Reserve",
+                                    AppLocalizations.of(context).translate('reserve'),
                                     style: TextStyle(fontSize: 16.0),
                                   ),
                                 ),
@@ -432,7 +437,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 20.0, vertical: 10.0),
                                   child: Text(
-                                    "Reserve",
+                                    AppLocalizations.of(context).translate('reserve'),
                                     style: TextStyle(fontSize: 16.0),
                                   ),
                                 ),
@@ -443,7 +448,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                         // Consumer<CinemaNotifier>(builder: (_, cinemaNotf, __) {
                         (ticketsNotempty == 0)
                             ? Text(
-                                "Price : --,-- Dh",
+                                AppLocalizations.of(context).translate('price') + " : --,-- Dh",
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w400,
@@ -451,7 +456,7 @@ class MovieAvailableState extends State<MovieAvailable> {
                                 ),
                               )
                             : Text(
-                                "Price : " +
+                                AppLocalizations.of(context).translate('price') + " : " +
                                     (prixticket * ticketsNotempty).toString() +
                                     " Dh",
                                 style: TextStyle(
@@ -536,7 +541,7 @@ class _DialogSalleState extends State<DialogSalle> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "You can easly choose the Salle :)",
+                AppLocalizations.of(context).translate('select_salle_message'),
                 style: TextStyle(
                   height: 1.5,
                   fontSize: 14.0,
@@ -614,7 +619,7 @@ class _DialogSalleState extends State<DialogSalle> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     child: Text(
-                      "Save",
+                      AppLocalizations.of(context).translate('save'),
                       style: TextStyle(fontSize: 16.0),
                     ),
                   ),
@@ -679,7 +684,7 @@ class _DialogTimeState extends State<DialogTime> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "You can easly choose the time :)",
+                AppLocalizations.of(context).translate('select_time_message'),
                 style: TextStyle(
                   height: 1.5,
                   fontSize: 14.0,
@@ -782,7 +787,7 @@ class _DialogTimeState extends State<DialogTime> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     child: Text(
-                      "Save",
+                      AppLocalizations.of(context).translate('save'),
                       style: TextStyle(fontSize: 16.0),
                     ),
                   ),
@@ -882,7 +887,7 @@ class _DialogTicketsState extends State<DialogTickets> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "You can easly choose Your Tickets :)",
+                AppLocalizations.of(context).translate('select_place_message'),
                 style: TextStyle(
                   height: 1.5,
                   fontSize: 14.0,
@@ -1025,7 +1030,7 @@ class _DialogTicketsState extends State<DialogTickets> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     child: Text(
-                      "Save",
+                      AppLocalizations.of(context).translate('save'),
                       style: TextStyle(fontSize: 16.0),
                     ),
                   ),
@@ -1121,7 +1126,7 @@ class _DialogReserveState extends State<DialogReserve> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "You can easily Reserve :)",
+                  AppLocalizations.of(context).translate('reserve_message_pp'),
                   style: TextStyle(
                     height: 1.5,
                     fontSize: 14.0,
@@ -1141,7 +1146,7 @@ class _DialogReserveState extends State<DialogReserve> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                "Film",
+                                AppLocalizations.of(context).translate('film'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
@@ -1149,7 +1154,7 @@ class _DialogReserveState extends State<DialogReserve> {
                                 ),
                               ),
                               Text(
-                                "Cinema",
+                                AppLocalizations.of(context).translate('cinema'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
@@ -1189,7 +1194,7 @@ class _DialogReserveState extends State<DialogReserve> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                "Salle",
+                                AppLocalizations.of(context).translate('salle'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
@@ -1197,7 +1202,7 @@ class _DialogReserveState extends State<DialogReserve> {
                                 ),
                               ),
                               Text(
-                                "Seance",
+                                AppLocalizations.of(context).translate('seance'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
@@ -1237,7 +1242,7 @@ class _DialogReserveState extends State<DialogReserve> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                "Nombre de place",
+                                AppLocalizations.of(context).translate('num_place'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
@@ -1245,7 +1250,7 @@ class _DialogReserveState extends State<DialogReserve> {
                                 ),
                               ),
                               Text(
-                                "Total prix",
+                                AppLocalizations.of(context).translate('total'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey,
@@ -1310,7 +1315,7 @@ class _DialogReserveState extends State<DialogReserve> {
                         contentPadding: EdgeInsets.all(0),
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: "Payement Code..",
+                        hintText: AppLocalizations.of(context).translate('payement_code'),
                         prefixIcon: Icon(FontAwesomeIcons.paypal),
                         border: OutlineInputBorder(
                             borderRadius:
@@ -1324,7 +1329,7 @@ class _DialogReserveState extends State<DialogReserve> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
                       child: Text(
-                        "Buy Ticket ",
+                        AppLocalizations.of(context).translate('buy'),
                         style: TextStyle(fontSize: 16.0),
                       ),
                     ),

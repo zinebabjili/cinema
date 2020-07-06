@@ -8,14 +8,16 @@
     "resume": "Film Story",
     "see_more": "See More!",
     "see_less": "See Less!",
+    "director": "Director",
     "available": "Available on ",
     "price": "Price",
-    "select_salle": "Select a room",
+    "select_salle": "Select a salle",
     "select_time": "Select the time",
     "select_place": "Select a seat",
-    "select_salle_message": "You can easily choose the room :)",
+    "select_salle_message": "You can easily choose the salle :)",
     "select_time_message": "You can easily choose the time :)",
     "select_place_message": "You can easily choose the seat :)",
+    "reserve_message_pp": "You can easily Reserve :)",
     "save": "Save",
     "reserve": "Reserve",
     "film": "Film",
@@ -29,5 +31,7 @@
     "buy": "Buy Ticket",
     "ticket_loading": "Loading",
     "code_payement" : "payment code",
-    "ticket_page" : "Ticket Page"
+    "ticket_page" : "Ticket Page",
+    "select_cinema_loc": "Choose the location of your cinema",
+    "set_curr_loc": "Select current location"
 }

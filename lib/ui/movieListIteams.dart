@@ -118,7 +118,7 @@ class _MovieListIteamsState extends State<MovieListIteams> {
                           children: <Widget>[
                             CircularProgressIndicator(
                                 backgroundColor: Colors.black),
-                            Text("Data is loading please wait for it",
+                            Text(AppLocalizations.of(context).translate('loading_message'),
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 18.0)),
                           ],
@@ -132,7 +132,7 @@ class _MovieListIteamsState extends State<MovieListIteams> {
                         children: <Widget>[
                           CircularProgressIndicator(
                               backgroundColor: Colors.black),
-                          Text("Data is loading please wait for it",
+                          Text(AppLocalizations.of(context).translate('loading_message'),
                               style: TextStyle(
                                   color: Colors.black, fontSize: 18.0)),
                         ],
@@ -177,7 +177,7 @@ class _SearchInputState extends State<SearchInput> {
         decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
-            hintText: "Search",
+            hintText: AppLocalizations.of(context).translate('search'),
             prefixIcon: Icon(Icons.search),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25.0)))),

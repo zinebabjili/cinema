@@ -1,4 +1,5 @@
 import 'package:cinema/models/city.dart';
+import 'package:cinema/services/AppLocalizations.dart';
 import 'package:cinema/services/locationService.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class _CurrentLocState extends State<CurrentLoc> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Choose Your Cinema Localisation'),
+        title: Text(AppLocalizations.of(context).translate('select_cinema_loc')),
       ),
       body: Stack(
         children: <Widget>[
@@ -139,7 +140,7 @@ class _CurrentLocState extends State<CurrentLoc> {
                     SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        'Set Current Localisation',
+                        AppLocalizations.of(context).translate('set_curr_loc'),
                         style: TextStyle(
                           fontSize: 16,
                         ),

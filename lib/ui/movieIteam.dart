@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinema/models/film.dart';
+import 'package:cinema/services/AppLocalizations.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -115,7 +116,7 @@ class MovieIteam extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             horizontal: 0.0, vertical: 10.0),
                         child: Text(
-                          "View",
+                          AppLocalizations.of(context).translate('view_movie'),
                           style: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.w800),
                         ),

@@ -1,3 +1,4 @@
+import 'package:cinema/services/AppLocalizations.dart';
 import 'package:cinema/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.fromLTRB(_hPad, 10.0, _hPad, 4.0),
-          child: Text("Resume", style: TitleTextStyle),
+          child: Text(AppLocalizations.of(context).translate('resume'), style: TitleTextStyle),
         ),
         (seeMoreIsSelected == 0)
             ? Container(
@@ -57,7 +58,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                          text: '\nRealisateur  ',
+                          text: '\n' + AppLocalizations.of(context).translate('director') + ' ',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       TextSpan(text: widget.realisateur),
                     ],
@@ -79,7 +80,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
           },
           child: (seeMoreIsSelected == 0)
               ? Text(
-                  "See More!",
+                  AppLocalizations.of(context).translate('see_more'),
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w600,
@@ -87,7 +88,7 @@ class _MovieDescriptionState extends State<MovieDescription> {
                   textAlign: TextAlign.center,
                 )
               : Text(
-                  "See Less!",
+                  AppLocalizations.of(context).translate('see_less'),
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w600,

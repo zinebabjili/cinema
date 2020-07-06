@@ -1,5 +1,6 @@
 import 'package:cinema/models/cinema.dart';
 import 'package:cinema/models/film.dart';
+import 'package:cinema/services/AppLocalizations.dart';
 import 'package:cinema/state_management/mainNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:cinema/ui/movieDescription.dart';
@@ -211,7 +212,7 @@ class _MovieState extends State<Movie> {
                           children: <Widget>[
                             CircularProgressIndicator(
                                 backgroundColor: Colors.black),
-                            Text("Data is loading please wait for it",
+                            Text(AppLocalizations.of(context).translate('loading_message'),
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 18.0)),
                           ],

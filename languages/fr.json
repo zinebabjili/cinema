@@ -8,6 +8,7 @@
     "resume": "Histoire de film",
     "see_more": "Voir plus!",
     "see_less": "Voir moins!",
+    "director": "Réalisateur",
     "available": "Disponible sur ",
     "price": "Prix",
     "select_salle": "Choisir une salle",
@@ -16,6 +17,7 @@
     "select_salle_message": "Vous pouvez facilement choisir la salle :)",
     "select_time_message": "Vous pouvez facilement choisir l'heure :)",
     "select_place_message": "Vous pouvez facilement choisir la place :)",
+    "reserve_message_pp": "Vous pouvez facilement réserver :)",
     "save": "Enregistrer",
     "reserve": "Réserver",
     "film": "Film",
@@ -29,5 +31,7 @@
     "buy": "Acheter un billet",
     "ticket_loading": "Chargement",
     "code_payement" : "code de paiement",
-    "ticket_page" : "Page des tickets"
+    "ticket_page" : "Page des tickets",
+    "select_cinema_loc": "Choisissez la localisation de votre cinéma",
+    "set_curr_loc": "Choisir la localisation actuelle"
 }

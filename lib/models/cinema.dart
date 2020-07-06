@@ -13,7 +13,7 @@ class Cinema{
   factory Cinema.fromJson(List<dynamic> json) {
     List<Salle> newSalle = [];
     List<Creneau> seancesBitch = new List<Creneau>();
-    Salle _selectedSalle = new Salle(name: "choose salle");
+    Salle _selectedSalle = new Salle(name: "Choose salle");
 
     for( var i = 0; i< json.length ; i++){
       newSalle.add(Salle(

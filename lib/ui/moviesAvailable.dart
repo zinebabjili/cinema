@@ -10,8 +10,6 @@ import 'package:cinema/ui/TicketPage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
 
 class MovieAvailable extends StatefulWidget {
   final Cinema cinema;

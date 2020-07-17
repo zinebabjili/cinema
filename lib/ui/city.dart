@@ -268,8 +268,9 @@ class _CityPageState extends State<CityPage> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           image: DecorationImage(
-                                              image: NetworkImage(snapshot
-                                                  .data[index].imageUrl),
+                                              image: new AssetImage('assets/images/cities/' + snapshot.data[index].imageUrl),
+                                              // image: NetworkImage(snapshot.data[index].imageUrl),
+                                              // image: NetworkImage("https://upload.wikimedia.org/wikipedia/en/d/d4/Togo_film_poster.jpg"),
                                               fit: BoxFit.cover)),
                                     ),
                                     Positioned(

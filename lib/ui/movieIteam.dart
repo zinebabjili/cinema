@@ -42,22 +42,28 @@ class MovieIteam extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10.0),
                       bottomLeft: Radius.circular(10.0)),
-                  child: CachedNetworkImage(
+                  child: Image.asset(
+                    'assets/images/films/' + movieSelected.imageUrl,
+                    fit: BoxFit.fill,
                     width: 150,
                     height: 200,
-                    imageUrl: movieSelected.imageUrl,
-                    placeholder: (context, url) =>
-                        new CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        radius: 38,
-                        backgroundColor: Colors.white,
-                        backgroundImage: AssetImage('assets/images/158834.jpg'),
-                      ),
-                    ),
-                    fit: BoxFit.cover,
                   ),
+                  // CachedNetworkImage(
+                  //   width: 150,
+                  //   height: 200,
+                  //   imageUrl:  movieSelected.imageUrl,
+                  //   placeholder: (context, url) =>
+                  //       new CircularProgressIndicator(),
+                  //   errorWidget: (context, url, error) => Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: CircleAvatar(
+                  //       radius: 38,
+                  //       backgroundColor: Colors.white,
+                  //       backgroundImage: AssetImage('assets/images/158834.jpg'),
+                  //     ),
+                  //   ),
+                  //   fit: BoxFit.cover,
+                  // ),
                 ),
               ),
             ),

@@ -60,6 +60,8 @@ flutter:
   assets:
    - assets/images/
    - languages/
+   - assets/images/films/
+   - assets/images/cities/
   #  - images/a_dot_ham.jpeg
 
   

@@ -52,8 +52,8 @@ class _MovieState extends State<Movie> {
                       tag: movieDesc.id,
                       child: ClipRRect(
                         // borderRadius: BorderRadius.circular(30.0),
-                        child: Image.network(
-                          movieDesc.imageUrl,
+                        child: Image.asset(
+                          'assets/images/films/' + movieDesc.imageUrl,
                           fit: BoxFit.fill,
                           width: double.infinity,
                         ),

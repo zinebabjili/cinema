@@ -8,12 +8,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
-// String apiUrlCities = "localhost:8089/villes/";
-// String apiUrlMovies = "localhost/search/ville=";
-// String apiUrlMoviesDetails = "localhost/getCinemasSalles/ville=";
-// String apiUrlSeancesOfSalle = "localhost/getSeances/salle=";
-// String apiUrlPayement = "localhost/payerLmok";
-
 String apiUrlCities = "http://cinema-backend-mundia.herokuapp.com/villes/";
 String apiUrlMovies = "http://cinema-backend-mundia.herokuapp.com/search/ville=";
 String apiUrlMoviesDetails = "http://cinema-backend-mundia.herokuapp.com/getCinemasSalles/ville=";
